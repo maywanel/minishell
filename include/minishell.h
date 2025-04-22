@@ -6,14 +6,14 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/04/22 20:41:54 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/04/22 21:51:41 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "./libft/libft.h"
+# include "../libft/libft.h"
 # include <readline/readline.h>     // readline, rl_on_new_line, rl_replace_line, rl_redisplay
 # include <readline/history.h>      // add_history, rl_clear_history
 # include <stdio.h>                 // printf, perror

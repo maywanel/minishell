@@ -6,8 +6,19 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/04/21 15:34:09 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/04/22 21:51:20 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
+
+int	main()
+{
+	char *str;
+
+	while ((str = readline("\ncomd : ")) != NULL)
+	{
+		printf("%s", str);
+		free(str);
+	}
+}
