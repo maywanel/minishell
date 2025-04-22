@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/04/21 15:32:16 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:41:54 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,24 @@
 # include <curses.h>                // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs (can also come from <termcap.h> or <term.h>)
 # include <termcap.h>               // Alternative to <curses.h> for tgetent, etc.
 
+typedef struct s_cmd
+{
+	char			**argv;       // command + args, e.g. ["ls", "-l", NULL]
+	char			*infile;      // for redirection: <
+	char			*outfile;     // for redirection: > or >>
+	bool			append;       // true if >>, false if >
+	bool			heredoc;      // true if <<
+	char			*delimiter;   // heredoc delimiter
+	struct s_cmd	*next;        // next command in pipeline
+}	t_cmd;
+
+typedef struct s_shell
+{
+	char	**envp;          // environment variables
+	char	*line;           // full input line
+	t_cmd	*cmd_list;       // parsed command list
+	int		last_exit_code;  // exit code of last executed command
+	bool	running;         // shell loop control
+}	t_shell;
 
 #endif
