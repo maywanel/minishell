@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/04/23 17:54:37 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:16:18 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char *find_path(t_shell *shell, char **cmd)
 {
     char *path;
     char *full_path;
-    struct stat buffer;
 
     if (access(cmd[0], F_OK) == 0)
         return (cmd[0]);
@@ -52,7 +51,7 @@ char *find_path(t_shell *shell, char **cmd)
     {
         full_path = ft_strjoin(paths[i], "/");
         full_path = ft_strjoin(full_path, cmd[0]);
-        if (stat(full_path, &buffer) == 0)
+        if (access(full_path, F_OK) == 0)
         {
             free(paths);
             return (full_path);
