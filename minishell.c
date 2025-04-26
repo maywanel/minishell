@@ -6,44 +6,34 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/04/23 18:16:18 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/04/26 20:53:26 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*my_path(char *name, char **env)
+void cd(char *av)
 {
-	int		i;
-	int		j;
-	char	*sub;
-
-	i = 0;
-	while (env[i])
-	{
-		j = 0;
-		while (env[i][j] && env[i][j] != '=')
-			j++;
-		sub = ft_substr(env[i], 0, j);
-		if (ft_strncmp(sub, name, ft_strlen(name)) == 0)
-		{
-			free(sub);
-			return (env[i] + j + 1);
-		}
-		free(sub);
-		i++;
-	}
-	return (NULL);
+    if (av == NULL)
+    {
+        if (chdir(getenv("HOME")) != 0)
+            perror("chdir");
+    }
+    else
+    {
+        if (chdir(av) != 0)
+            perror("chdir");
+    }
 }
 
-char *find_path(t_shell *shell, char **cmd)
+char *find_path(char **cmd)
 {
     char *path;
     char *full_path;
 
     if (access(cmd[0], F_OK) == 0)
         return (cmd[0]);
-    path = my_path("PATH", shell->envp);
+    path = getenv("PATH");
     if (!path)
         return (NULL);
     char **paths = ft_split(path, ':');
@@ -62,12 +52,36 @@ char *find_path(t_shell *shell, char **cmd)
     return (NULL);
 }
 
+void handle_cd_command(t_shell *shell, char **cmd)
+{
+    char buffer[1024];
+    char *last_dir;
+
+    if (cmd[1] == NULL)
+        cd(NULL);
+    else
+        cd(cmd[1]);
+    if (getcwd(buffer, sizeof(buffer)) != NULL) {
+        last_dir = strrchr(buffer, '/');
+        if (last_dir != NULL)
+            last_dir++;
+        else
+            last_dir = buffer;
+        free(shell->name);
+        shell->name = ft_strdup(last_dir);
+    } else {
+        perror("getcwd");
+    }
+    free(cmd);
+    free(shell->line);
+}
+
 void prompt(t_shell *shell)
 {
     char **cmd;
     char *path;
 
-    shell->line = readline("minishell> ");
+    shell->line = readline(ft_strjoin(shell->name, "> "));
     if (!shell->line)
     {
         printf("\n");
@@ -78,7 +92,12 @@ void prompt(t_shell *shell)
     {
         add_history(shell->line);
         cmd = ft_split(shell->line, ' ');
-        path = find_path(shell, cmd);
+        if (ft_strncmp(cmd[0], "cd", 2) == 0 && ft_strlen(cmd[0]) == 2)
+        {
+            handle_cd_command(shell, cmd);
+            return;
+        }
+        path = find_path(cmd);
         if (fork() == 0)
         {
             if (execve(path, cmd, shell->envp) == -1)
@@ -106,9 +125,10 @@ int	main(int ac, char **av, char **envp)
     shell->cmd_list = NULL;
     shell->last_exit_code = 0;
     shell->running = true;
-
+    shell->name = ft_strdup("minishell");
     while (shell->running)
         prompt(shell);
+    free(shell->line);
     free(shell);
     return (0);
 }

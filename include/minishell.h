@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/04/22 21:51:41 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/04/26 20:54:17 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_cmd
 typedef struct s_shell
 {
 	char	**envp;          // environment variables
+	char    *name;		  	// shell name
 	char	*line;           // full input line
 	t_cmd	*cmd_list;       // parsed command list
 	int		last_exit_code;  // exit code of last executed command

@@ -15,7 +15,7 @@ all: $(LIBFT) $(NAME)
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT) minishell.c
 	$(CC) minishell.c $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 clean:
