@@ -3,89 +3,89 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: moel-mes <moel-mes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 11:18:49 by moel-mes          #+#    #+#             */
-/*   Updated: 2024/10/28 22:08:58 by moel-mes         ###   ########.fr       */
+/*   Created: 2024/08/06 11:15:35 by moel-mes          #+#    #+#             */
+/*   Updated: 2024/08/13 14:23:23 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
 
-static int	ft_word_count(const char *str, char c)
+int	is_sep(char a, char *charset)
 {
 	int	i;
-	int	w;
 
 	i = 0;
-	w = 0;
-	while (str[i])
+	while (charset[i])
 	{
-		if (str[i] != c && (str[i + 1] == c || str[i + 1] == '\0'))
-			w++;
+		if (a == charset[i])
+			return (1);
 		i++;
 	}
-	return (w);
+	return (0);
 }
 
-static char	*create_word(const char *s, int *i, char c)
+char	*add_str(char *str, int size, int k)
 {
-	int		k;
-	char	*str;
+	int		i;
+	char	*new_str;
 
-	while (s[*i] == c)
-		(*i)++;
-	k = *i;
-	while (s[k] != c && s[k] != '\0')
-		k++;
-	str = malloc((k - *i + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
-	k = 0;
-	while (s[*i] && s[*i] != c)
+	new_str = (char *) malloc(size + 1);
+	i = 0;
+	while (i < size)
 	{
-		str[k++] = s[*i];
-		(*i)++;
+		new_str[i] = str[i + k];
+		i++;
 	}
-	str[k] = '\0';
-	return (str);
+	new_str[i] = '\0';
+	return (new_str);
 }
 
-static void	free_words(char **str, int count)
+void	alloc_res(char ***result, char *str, char *charset)
 {
 	int	i;
+	int	j;
+	int	k;
 
 	i = 0;
-	while (i < count)
-		free(str[i++]);
-	free(str);
+	k = 0;
+	while (str[k])
+	{
+		j = 0;
+		while (!is_sep(str[k + j], charset) && str[k + j])
+			j++;
+		if (j)
+			i++;
+		k += j + 1;
+	}
+	if (!*charset)
+		i = 1;
+	*result = (char **) malloc(sizeof(char *) * (i + 1));
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *str, char *charset)
 {
-	int		w;
-	char	**str;
-	int		p;
 	int		i;
+	int		j;
+	int		k;
+	char	**result;
 
-	if (!s)
-		return (NULL);
-	w = ft_word_count(s, c);
-	str = malloc((w + 1) * sizeof(char *));
-	if (!str)
-		return (NULL);
-	p = 0;
 	i = 0;
-	while (p < w)
+	k = 0;
+	alloc_res(&result, str, charset);
+	while (str[k])
 	{
-		str[p] = create_word(s, &i, c);
-		if (!str[p])
+		j = 0;
+		while (!is_sep(str[k + j], charset) && str[k + j])
+			j++;
+		if (j)
 		{
-			free_words(str, p);
-			return (NULL);
+			result[i] = add_str(str, j, k);
+			i++;
 		}
-		p++;
+		k += j + 1;
 	}
-	str[p] = NULL;
-	return (str);
+	result[i] = 0;
+	return (result);
 }

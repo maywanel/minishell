@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/04/27 06:19:36 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/04/27 21:51:46 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,12 @@ typedef struct s_shell
 	bool	running;         // shell loop control
 	char 	*path;
 }	t_shell;
+
+void cd(char *av);
+void free_array(char **array);
+void handle_sigint(int sig);
+char *find_path(char **cmd);
+void handle_cd_command(t_shell *shell, char **cmd);
+void prompt(t_shell *shell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/04/27 06:22:36 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/04/27 21:52:13 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,6 @@ void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
-void cd(char *av)
-{
-    if (av == NULL)
-    {
-        if (chdir(getenv("HOME")) != 0)
-            perror("chdir");
-    }
-    else
-    {
-        if (chdir(av) != 0)
-            perror("chdir");
-    }
-}
-
 char *find_path(char **cmd)
 {
     char *path;
@@ -53,7 +39,7 @@ char *find_path(char **cmd)
     path = getenv("PATH");
     if (!path)
         return (NULL);
-    char **paths = ft_split(path, ':');
+    char **paths = ft_split(path, ":");
     for (int i = 0; paths[i]; i++)
     {
         tmp = ft_strjoin(paths[i], "/");
@@ -68,30 +54,6 @@ char *find_path(char **cmd)
     }
     free_array(paths);
     return (NULL);
-}
-
-void handle_cd_command(t_shell *shell, char **cmd)
-{
-    char buffer[1024];
-    char *last_dir;
-
-    if (cmd[1] == NULL)
-        cd(NULL);
-    else
-        cd(cmd[1]);
-    if (getcwd(buffer, sizeof(buffer)) != NULL) {
-        last_dir = ft_strrchr(buffer, '/');
-        if (last_dir != NULL)
-            last_dir++;
-        else
-            last_dir = buffer;
-        free(shell->name);
-        shell->name = ft_strdup(last_dir);
-    } else {
-        perror("getcwd");
-    }
-    free(cmd);
-    free(shell->line);
 }
 
 void prompt(t_shell *shell)
@@ -113,7 +75,7 @@ void prompt(t_shell *shell)
     if (ft_strlen(shell->line) > 0)
     {
         add_history(shell->line);
-        cmd = ft_split(shell->line, ' ');
+        cmd = ft_split(shell->line, " ");
         if (ft_strncmp(cmd[0], "cd", 2) == 0 && ft_strlen(cmd[0]) == 2)
         {
             handle_cd_command(shell, cmd);
