@@ -4,7 +4,8 @@
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline -I $(LIBFT_DIR) -I includes
+CFLAGS = -Wall -Wextra -Werror -I$(LIBFT_DIR) -I./include
+LREADLINE = -lreadline
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 SRCS = $(wildcard src/*.c)
@@ -16,7 +17,7 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS) $(LIBFT) minishell.c
-	$(CC) minishell.c $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) minishell.c $(CFLAGS) $(LREADLINE) $(OBJS) $(LIBFT) -o $(NAME)
 
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean

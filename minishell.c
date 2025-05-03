@@ -6,11 +6,11 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/04/27 21:52:13 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/04/29 10:40:43 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 void free_array(char **array)
 {
@@ -25,7 +25,7 @@ void	handle_sigint(int sig)
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	rl_redisplay();
+	// rl_redisplay();
 }
 
 char *find_path(char **cmd)
@@ -60,77 +60,17 @@ void prompt(t_shell *shell)
 {
     char **cmd;
     char *tmp;
-    pid_t pid;
-    int sig;
 
     tmp = ft_strjoin(shell->name, "> ");
     shell->line = readline(tmp);
     free(tmp);
     if (!shell->line)
-    {
-        printf("exit\n");
-        shell->running = false;
-        return;
-    }
+        return handle_exit(shell);
     if (ft_strlen(shell->line) > 0)
     {
         add_history(shell->line);
-        cmd = ft_split(shell->line, " ");
-        if (ft_strncmp(cmd[0], "cd", 2) == 0 && ft_strlen(cmd[0]) == 2)
-        {
-            handle_cd_command(shell, cmd);
-            return;
-        }
-        if (ft_strncmp(cmd[0], "exit", 4) == 0 && ft_strlen(cmd[0]) == 4)
-        {
-            printf("exit\n");
-            free_array(cmd);
-            shell->running = false;
-            return;
-        }
-        shell->path = find_path(cmd);
-        if (!shell->path)
-        {
-            printf("minishell: %s: command not found\n", cmd[0]);
-            free_array(cmd);
-            return;
-        }
-        pid = fork();
-        if (pid == 0)
-        {
-            signal(SIGINT, SIG_DFL);
-            signal(SIGQUIT, SIG_DFL);
-            if (execve(shell->path, cmd, shell->envp) == -1)
-            {
-                perror("minishell");
-                exit(EXIT_FAILURE);
-            }
-        }
-        else if (pid < 0)
-        {
-            perror("fork");
-            free_array(cmd);
-            free(shell->path);
-            return;
-        }
-        else
-        {
-            waitpid(pid, &shell->last_exit_code, 0);
-
-            if (WIFSIGNALED(shell->last_exit_code))
-            {
-                sig = WTERMSIG(shell->last_exit_code);
-                if (sig == SIGINT)
-                    shell->last_exit_code = 130;
-                else if (sig == SIGQUIT)
-                    shell->last_exit_code = 131;
-            }
-            else if (WIFEXITED(shell->last_exit_code))
-                shell->last_exit_code = WEXITSTATUS(shell->last_exit_code);
-
-        }
-        free_array(cmd);
-        free(shell->path);
+        cmd = ft_split(shell->line, " \t\n\r\f\v");
+        handle_command(shell, cmd);
     }
     free(shell->line);
 }
@@ -153,7 +93,6 @@ int	main(int ac, char **av, char **envp)
     shell->name = ft_strdup("minishell");
     while (shell->running)
         prompt(shell);
-    free(shell->line);
     free(shell->name);
     free(shell);
     return (0);

@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/04/27 21:51:46 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/04/30 09:09:30 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,12 @@ void handle_sigint(int sig);
 char *find_path(char **cmd);
 void handle_cd_command(t_shell *shell, char **cmd);
 void prompt(t_shell *shell);
+void handle_child_process(t_shell *shell, pid_t pid);
+void execute_command(t_shell *shell, char **cmd);
+void handle_exit(t_shell *shell);
+void handle_sigint(int sig);
+bool is_builtin(t_shell *shell, char **cmd);
+void handle_command(t_shell *shell, char **cmd);
+void handle_pipes(t_shell *shell);
 
 #endif
