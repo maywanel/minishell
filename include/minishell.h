@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/04/30 09:09:30 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/05/04 12:03:37 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include <stdio.h>                 // printf, perror
 # include <readline/readline.h>     // readline, rl_on_new_line, rl_replace_line, rl_redisplay
 # include <readline/history.h>      // add_history, rl_clear_history
-# include <stdio.h>                 // printf, perror
 # include <stdlib.h>                // malloc, free, exit
 # include <unistd.h>                // write, access, read, close, fork, chdir, getcwd, dup, dup2, pipe, isatty, ttyname, ttyslot, execve
 # include <fcntl.h>                 // open, unlink
@@ -48,7 +48,7 @@ typedef struct s_shell
 	char    *name;		  	// shell name
 	char	*line;           // full input line
 	t_cmd	*cmd_list;       // parsed command list
-	int		last_exit_code;  // exit code of last executed command
+	long		last_exit_code;  // exit code of last executed command
 	bool	running;         // shell loop control
 	char 	*path;
 }	t_shell;

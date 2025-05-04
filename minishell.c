@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/04/29 10:40:43 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/05/04 12:01:21 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void prompt(t_shell *shell)
     char **cmd;
     char *tmp;
 
+    cmd = NULL;
     tmp = ft_strjoin(shell->name, "> ");
     shell->line = readline(tmp);
     free(tmp);
@@ -95,5 +96,6 @@ int	main(int ac, char **av, char **envp)
         prompt(shell);
     free(shell->name);
     free(shell);
+    exit(shell->last_exit_code);
     return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moel-mes <moel-mes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:15:35 by moel-mes          #+#    #+#             */
-/*   Updated: 2024/08/13 14:23:23 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/05/04 11:52:58 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ char	**ft_split(char *str, char *charset)
 			result[i] = add_str(str, j, k);
 			i++;
 		}
-		k += j + 1;
+		k += j;
+		while (str[k] && is_sep(str[k], charset))
+			k++;
 	}
 	result[i] = 0;
 	return (result);
