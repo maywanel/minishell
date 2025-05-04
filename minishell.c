@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/05/04 12:01:21 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/05/04 13:44:00 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ char *find_path(char **cmd)
     char *tmp;
 
     if (access(cmd[0], F_OK) == 0)
-        return (cmd[0]);
+      return (cmd[0]);
+  	if (cmd[0][0] == '/' || cmd[0][0] == '.')
+		  return (ft_strdup(cmd[0]));
     path = getenv("PATH");
     if (!path)
         return (NULL);
@@ -62,7 +64,7 @@ void prompt(t_shell *shell)
     char *tmp;
 
     cmd = NULL;
-    tmp = ft_strjoin(shell->name, "> ");
+    tmp = ft_strjoin("\033[0;32m\e[1m➜\e[m  ", shell->name);
     shell->line = readline(tmp);
     free(tmp);
     if (!shell->line)
@@ -91,7 +93,7 @@ int	main(int ac, char **av, char **envp)
     shell->cmd_list = NULL;
     shell->last_exit_code = 0;
     shell->running = true;
-    shell->name = ft_strdup("minishell");
+    get_promt_name(shell);
     while (shell->running)
         prompt(shell);
     free(shell->name);

@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 21:50:13 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/05/04 11:55:07 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/05/04 13:41:44 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,23 +83,10 @@ void cd(char *av)
 
 void handle_cd_command(t_shell *shell, char **cmd)
 {
-    char buffer[1024];
-    char *last_dir;
-
     if (cmd[1] == NULL)
         cd(NULL);
     else
         cd(cmd[1]);
-    if (getcwd(buffer, sizeof(buffer)) != NULL) {
-        last_dir = ft_strrchr(buffer, '/');
-        if (last_dir != NULL)
-            last_dir++;
-        else
-            last_dir = buffer;
-        free(shell->name);
-        shell->name = ft_strdup(last_dir);
-    } else {
-        perror("getcwd");
-    }
+    get_promt_name(shell);
     free(cmd);
 }

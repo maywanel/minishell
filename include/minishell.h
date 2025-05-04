@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/05/04 12:03:37 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/05/04 13:39:13 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ void handle_sigint(int sig);
 bool is_builtin(t_shell *shell, char **cmd);
 void handle_command(t_shell *shell, char **cmd);
 void handle_pipes(t_shell *shell);
+void get_promt_name(t_shell *shell);
 
 #endif
