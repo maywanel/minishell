@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/05/04 13:44:00 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:40:59 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handle_sigint(int sig)
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	// rl_redisplay();
+	rl_redisplay();
 }
 
 char *find_path(char **cmd)
@@ -82,8 +82,11 @@ int	main(int ac, char **av, char **envp)
 {
     (void)ac;
     (void)av;
+    t_shell *shell;
+    int exit_code;
 
-    t_shell *shell = malloc(sizeof(t_shell));
+    exit_code = 0;
+    shell = malloc(sizeof(t_shell));
     if (!shell)
         return (1);
     signal(SIGINT, handle_sigint);
@@ -96,8 +99,9 @@ int	main(int ac, char **av, char **envp)
     get_promt_name(shell);
     while (shell->running)
         prompt(shell);
+    exit_code = shell->last_exit_code;
     free(shell->name);
     free(shell);
-    exit(shell->last_exit_code);
+    exit(exit_code);
     return (0);
 }
