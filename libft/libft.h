@@ -85,11 +85,11 @@ int					print_hex(unsigned long u, char c);
 int					ft_print_u(unsigned int u);
 
 //--------get_next_line----------------------------------------------------//
-char	      *ft_get_substr(char *s, int start, int end);
-char	      *ft_get_strjoin(char *s1, char *s2);
-char	      *ft_get_strcpy(char *s, const char *str, int len);
-int		      ft_get_strlen(char *s);
-char	      *ft_get_strdup(char *s);
-char	      *get_next_line(int fd);
+char				*ft_get_substr(char *s, int start, int end);
+char				*ft_get_strjoin(char *s1, char *s2);
+char				*ft_get_strcpy(char *s, const char *str, int len);
+int					ft_get_strlen(char *s);
+char				*ft_get_strdup(char *s);
+char				*get_next_line(int fd);
 
 #endif
