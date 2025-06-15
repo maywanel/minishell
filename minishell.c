@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/05/28 16:06:59 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/06/16 00:37:16 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ char	*find_path(t_shell *shell, char **cmd)
 	char	*tmp;
 	char	**paths;
 
+	i = 0;
+	if (!cmd || !cmd[0])
+		return (NULL);
 	if (access(cmd[0], F_OK) == 0)
 		return (cmd[0]);
 	if (cmd[0][0] == '/' || cmd[0][0] == '.')
@@ -48,6 +51,8 @@ char	*find_path(t_shell *shell, char **cmd)
 	if (!path)
 		return (NULL);
 	paths = ft_split(path, ":");
+	if (!paths)
+		return (NULL);
 	while (paths[i])
 	{
 		tmp = ft_strjoin(paths[i], "/");
