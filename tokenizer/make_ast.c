@@ -1,0 +1,130 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   make_ast.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/19 20:10:08 by hamel-yo          #+#    #+#             */
+/*   Updated: 2025/07/24 08:36:19 by hamel-yo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/minishellh.h"
+
+t_token_type	get_token_type(char *s, int size)
+{
+	if (*s == '>' || *s == '<')
+		return (TOKEN_REDIRECTION);
+	else if (*s == '|')
+		return (TOKEN_PIPE);
+	return (TOKEN_WORD);
+}
+
+t_red_type	get_red_type(t_token *token)
+{
+	if (*(token->txt) == '<' && token->len == 2)
+		return (REDIR_APPEND);
+	else if (*(token->txt) == '>' && token->len == 2)
+		return (REDIR_HEREDOC);
+	else if (*(token->txt) == '<')
+		return (REDIR_IN);
+	else
+		return (REDIR_OUT);
+}
+
+t_token	*split_tokenw(t_token **lexer)
+{
+	t_token	*result;
+	t_token	*next;
+
+	result = *lexer;
+	next = (*lexer)->next;
+	while (next != NULL)
+	{
+		if (next->type != TOKEN_WORD)
+			break;
+		*lexer = next ;
+		next = next->next;
+	}
+	if (next != NULL)
+		(*lexer)->next = NULL;
+	*lexer = next;
+	return (result);
+}
+
+void	token_add_back(t_token **token, t_token **lexer)
+{
+	t_token	*saver;
+
+	saver = *token ;
+	if (*token == NULL)
+	{
+		*token = split_tokenw(lexer);
+		return ;
+	}
+	while ((*token)->next != NULL)
+		*token = (*token)->next;
+	(*token)->next = split_tokenw(lexer);
+	*token = saver;
+}
+
+t_red	*make_red(t_token **lexer)
+{
+	t_red	*redirect;
+
+	redirect = malloc(sizeof(t_red));
+	redirect->red_type = get_red_type(*lexer);
+	redirect->target = NULL;
+	redirect->token = (*lexer)->next;
+	*lexer = (*lexer)->next;
+	*lexer = (*lexer)->next;
+	(redirect->token)->next = NULL;
+	redirect->next = NULL;
+	return (redirect);
+}
+
+void	red_add_back(t_red **red, t_token **lexer)
+{
+	t_red	*saver;
+
+	saver = *red;
+	if (*red == NULL)
+	{
+		*red = make_red(lexer);
+		return ;
+	}
+	while ((*red)->next != NULL)
+	       *red = (*red)->next;
+	(*red)->next = make_red(lexer);
+	*red = saver;
+}
+
+t_cmd	*make_cmd(t_token *lexer)
+{
+	t_cmd	*cmd;
+
+	cmd = malloc (sizeof(t_cmd));
+	cmd->argv = NULL;
+	cmd->redirection = NULL;
+	cmd->token = NULL;
+	cmd->next = NULL;
+	while (lexer != NULL)
+	{
+		if (lexer->type == TOKEN_WORD)
+			token_add_back(&(cmd->token), &lexer);
+		else if (lexer->type == TOKEN_REDIRECTION)
+			red_add_back(&(cmd->redirection), &lexer);
+		else if (lexer->type == TOKEN_PIPE)
+			cmd->next = make_cmd(lexer);
+	}
+	return (cmd);
+}
+
+t_cmd	*get_the_parser(char *s)
+{
+	t_token	*lexer;
+
+	lexer = get_lexer(s);
+	return (make_cmd(lexer));
+}
