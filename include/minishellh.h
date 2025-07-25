@@ -73,8 +73,14 @@ typedef enum s_connector
 
 typedef struct s_cmd
 {
+	t_ast_type	*type;
 	char	**argv;
-	t_token	*token;
+	union
+	{
+		t_connector	con;
+		t_token		*token;
+		struct s_cmd	*sub;
+	};
 	t_red	*redirection ;
 	struct s_cmd	*next;
 }	t_cmd;
