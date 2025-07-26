@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishellh.h"
+#include "minishell.h"
 
-t_token_type	get_token_type(char *s, int size)
+t_token_type	get_token_type(char *s)
 {
 	if (*s == '>' || *s == '<')
 		return (TOKEN_REDIRECTION);
@@ -23,9 +23,9 @@ t_token_type	get_token_type(char *s, int size)
 
 t_red_type	get_red_type(t_token *token)
 {
-	if (*(token->txt) == '<' && token->len == 2)
+	if (*(token->txt) == '>' && token->len == 2)
 		return (REDIR_APPEND);
-	else if (*(token->txt) == '>' && token->len == 2)
+	else if (*(token->txt) == '<' && token->len == 2)
 		return (REDIR_HEREDOC);
 	else if (*(token->txt) == '<')
 		return (REDIR_IN);
@@ -74,9 +74,17 @@ t_red	*make_red(t_token **lexer)
 	t_red	*redirect;
 
 	redirect = malloc(sizeof(t_red));
+	if (!redirect)
+		return (NULL);
 	redirect->red_type = get_red_type(*lexer);
-	redirect->target = NULL;
 	redirect->token = (*lexer)->next;
+	redirect->target = malloc(redirect->token->len + 1);
+	if (!redirect->target)
+	{
+		free(redirect);
+		return (NULL);
+	}
+	ft_strlcpy(redirect->target, redirect->token->txt, redirect->token->len + 1);
 	*lexer = (*lexer)->next;
 	*lexer = (*lexer)->next;
 	(redirect->token)->next = NULL;
@@ -105,6 +113,8 @@ t_cmd	*make_cmd(t_token *lexer)
 	t_cmd	*cmd;
 
 	cmd = malloc (sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
 	cmd->argv = NULL;
 	cmd->redirection = NULL;
 	cmd->token = NULL;
@@ -116,7 +126,13 @@ t_cmd	*make_cmd(t_token *lexer)
 		else if (lexer->type == TOKEN_REDIRECTION)
 			red_add_back(&(cmd->redirection), &lexer);
 		else if (lexer->type == TOKEN_PIPE)
+		{
+			lexer = lexer->next;
 			cmd->next = make_cmd(lexer);
+			break;
+		}
+		else
+			lexer = lexer->next;
 	}
 	return (cmd);
 }

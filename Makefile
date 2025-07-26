@@ -4,7 +4,9 @@ CFLAGS = -Wall -Wextra -Werror -I$(LIBFT_DIR) -I./include
 LREADLINE = -lreadline
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
-SRCS = $(wildcard src/*.c)
+SRCS = $(wildcard src/*.c) \
+		$(wildcard tokenizer/*.c) \
+		$(wildcard garbage_collector/*.c)
 OBJS = $(SRCS:.c=.o)
 
 all: $(LIBFT) $(NAME)

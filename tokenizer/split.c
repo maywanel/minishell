@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishellh.h"
+#include "minishell.h"
 
 int	is_whitespace(char c)
 {
@@ -87,7 +87,7 @@ t_token	*split(char *s, int *start)
 	token = malloc(sizeof(t_token));
 	token->txt = s + *start;
 	token->len = size ;
-	token->type = get_token_type(s + *start, token->len);
+	token->type = get_token_type(s + *start);
 	token->next = NULL;
 	*start = *start + token->len;
 	return (token);

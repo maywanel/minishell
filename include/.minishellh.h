@@ -89,7 +89,7 @@ t_cmd	*get_the_parser(char *s);
 t_cmd	*make_cmd(t_token *lexer);
 void	token_addback(t_token **token, t_token *new_token);
 t_token	*get_lexer(char *s);
-t_token_type	get_token_type(char *s, int size);
+t_token_type	get_token_type(char *s);
 t_token	*get_token(char	*s, int	start, int end);
 int	hchars(char s, char *c_set);
 void	cmd_collect(void *ptr);

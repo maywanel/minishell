@@ -17,7 +17,7 @@ bool	is_builtin(t_shell *shell, char **cmd)
 	if (ft_strncmp(cmd[0], "cd", 2) == 0 && ft_strlen(cmd[0]) == 2)
 		handle_cd_command(shell, cmd);
 	else if (ft_strncmp(cmd[0], "exit", 4) == 0 && ft_strlen(cmd[0]) == 4)
-		(handle_exit(shell), free_array(cmd));
+		(handle_exit(shell, cmd), free_array(cmd));
 	else if (ft_strncmp(cmd[0], "pwd", 3) == 0 && ft_strlen(cmd[0]) == 3)
 		(handle_pwd(shell), free_array(cmd));
 	else if (ft_strncmp(cmd[0], "export", 6) == 0 && ft_strlen(cmd[0]) == 6)
@@ -42,7 +42,7 @@ void	handle_pwd(t_shell *shell)
 	else
 	{
 		perror("getcwd");
-		shell->last_exit_code = 1;
+		*shell->last_exit_code = 1;
 	}
 }
 

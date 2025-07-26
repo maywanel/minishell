@@ -69,20 +69,32 @@ char	*find_path(t_shell *shell, char **cmd)
 
 void	prompt(t_shell *shell)
 {
-	char	**cmd;
 	char	*tmp;
 
-	cmd = NULL;
 	tmp = ft_strjoin("\033[0;32m\e[1m➜\e[m  ", shell->name);
 	shell->line = readline(tmp);
 	free(tmp);
 	if (!shell->line)
-		return (handle_exit(shell));
+	{
+		char *exit_cmd[] = {"exit", NULL};
+		return (handle_exit(shell, exit_cmd));
+	}
 	if (ft_strlen(shell->line) > 0)
 	{
 		add_history(shell->line);
-		cmd = ft_split(shell->line, " \t\n\r\f\v");
-		handle_command(shell, cmd);
+		shell->cmd_list = get_the_parser(shell->line);
+		if (shell->cmd_list->next)
+			handle_pipes(shell);
+		else
+		{
+			shell->cmd_list->argv = tokens_to_argv(shell->cmd_list->token);
+			if (!shell->cmd_list->argv)
+			{
+				free(shell->cmd_list);
+				return ;
+			}
+			handle_command(shell, shell->cmd_list->argv);
+		}
 	}
 	free(shell->line);
 }
@@ -104,13 +116,17 @@ int	main(int ac, char **av, char **envp)
 	shell->envp = get_envp(shell);
 	shell->line = NULL;
 	shell->cmd_list = NULL;
-	shell->last_exit_code = 0;
+	shell->last_exit_code = malloc(sizeof(long));
+	if (!shell->last_exit_code)
+		return (1);
+	*shell->last_exit_code = 0;
 	shell->running = true;
 	get_promt_name(shell);
 	while (shell->running)
 		prompt(shell);
-	exit_code = shell->last_exit_code;
+	exit_code = *shell->last_exit_code;
 	free(shell->name);
+	free(shell->last_exit_code);
 	free_array(shell->envp);
 	free(shell);
 	exit(exit_code);

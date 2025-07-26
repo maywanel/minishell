@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishellh.h"
+#include "minishell.h"
 
 void	**gc_resizecollecter(int size, void **collector, void *ptr)
 {

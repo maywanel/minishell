@@ -90,7 +90,7 @@ static void	export_variable(t_shell *shell, char *arg)
 	var = malloc(var_len + 1);
 	if (!var)
 		return ;
-	strncpy(var, arg, var_len);
+	ft_strlcpy(var, arg, var_len + 1);
 	var[var_len] = '\0';
 	idx = find_env_var(shell->envp, var, var_len);
 	value = equal_sign + 1;
@@ -114,6 +114,7 @@ void	handle_export(t_shell *shell, char **cmd)
 	}
 	if (cmd[1] == NULL)
 	{
+		j = 0;
 		while (shell->envp && shell->envp[j])
 			printf("%s\n", shell->envp[j++]);
 		return ;

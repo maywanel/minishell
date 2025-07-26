@@ -75,6 +75,7 @@ void	execute_command(t_shell *shell, char **cmd)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		len = ft_strlen(shell->path);
+		setup_redirection(shell->cmd_list);
 		if (len > 3 && ft_strncmp(shell->path + len - 3, ".sh", 3) == 0)
 			handle_script(shell, cmd);
 		else if (execve(shell->path, cmd, shell->envp) == -1)
@@ -101,12 +102,12 @@ void	handle_child_process(t_shell *shell, pid_t pid)
 	{
 		sig = WTERMSIG(status);
 		if (sig == SIGINT)
-			shell->last_exit_code = 130;
+			*shell->last_exit_code = 130;
 		else if (sig == SIGQUIT)
-			shell->last_exit_code = 131;
+			*shell->last_exit_code = 131;
 		else
-			shell->last_exit_code = 0;
+			*shell->last_exit_code = 0;
 	}
 	else if (WIFEXITED(status))
-		shell->last_exit_code = WEXITSTATUS(status);
+		*shell->last_exit_code = WEXITSTATUS(status);
 }

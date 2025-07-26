@@ -49,6 +49,7 @@ char	*ft_getenv(t_shell *shell, const char *name)
 	int		i;
 	size_t	len;
 
+	i = 0;
 	if (!shell || !shell->envp || !name)
 		return (NULL);
 	len = 0;

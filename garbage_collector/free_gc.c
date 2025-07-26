@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishellh.h"
+#include "minishell.h"
 
 void	gc_free(void **collector)
 {
@@ -19,7 +19,6 @@ void	gc_free(void **collector)
 	i = 0;
 	while (collector[i] != NULL)
 	{
-		printf("%s\n", (char *)collector[i]);
 		free(collector[i]);
 		i++;
 	}

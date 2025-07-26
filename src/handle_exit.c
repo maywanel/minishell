@@ -27,28 +27,23 @@ long	ft_exit_code(char *str)
 	return (code);
 }
 
-void	handle_exit(t_shell *shell)
+void	handle_exit(t_shell *shell, char **cmd)
 {
-	char	**exit_code;
+	int	exit_code;
 
-	if (!shell->line)
+	exit_code = 0;
+	if (cmd[1] != NULL)
 	{
-		printf("exit\n");
-		shell->running = false;
-		return ;
+		if (ft_isdigit(cmd[1][0]))
+			exit_code = ft_exit_code(cmd[1]);
+		else
+		{
+			printf("minishell: exit: %s: numeric argument required\n", cmd[1]);
+			exit_code = 255;
+		}
 	}
-	exit_code = ft_split(shell->line, " ");
-	if (exit_code[1] == NULL)
-		shell->last_exit_code = 0;
-	else if (ft_isdigit(exit_code[1][0]))
-		shell->last_exit_code = ft_exit_code(exit_code[1]);
-	else
-	{
-		printf("minishell: exit: %s: numeric argument required\n",
-			exit_code[1]);
-		free_array(exit_code);
-	}
-	free_array(exit_code);
+	
+	*shell->last_exit_code = exit_code;
 	printf("exit\n");
 	shell->running = false;
 }
