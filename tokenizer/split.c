@@ -6,11 +6,11 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:02:03 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/24 08:38:52 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:01:09 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	is_whitespace(char c)
 {
@@ -43,15 +43,14 @@ void	count_insidequotes(char *s, int *saver)
 
 	c = s[*saver];
 	*saver = *saver + 1;
-	while (s[*saver] != c && s[*saver])
+	while (s[*saver] != c && s[*saver] != 0)
 		*saver = *saver + 1;
-	/*if (*saver == end)
-	 	exit (1);
-		
-	 *
-	 *
-	 */
-		
+	if (s[*saver] == 0)
+	{
+		error(SE_QUOTES);
+		*saver = *saver - 1;
+	}
+
 }
 
 int	count_size(char *s, int start)

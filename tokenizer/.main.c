@@ -1,4 +1,4 @@
-#include "../include/minishellh.h"
+#include "../include/minishell.h"
 
 
 char *get_red_name(t_red_type type)

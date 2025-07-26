@@ -6,11 +6,11 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 08:42:47 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/24 08:49:11 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/26 11:52:39 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 void	token_addback(t_token **token, t_token *new_token)
 {

@@ -6,11 +6,11 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 20:10:08 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/24 08:36:19 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/26 11:52:20 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 t_token_type	get_token_type(char *s)
 {
