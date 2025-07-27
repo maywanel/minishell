@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 21:50:13 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/05/28 15:44:35 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/07/27 13:46:26 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ void	handle_pwd(t_shell *shell)
 	char	buffer[1024];
 
 	if (getcwd(buffer, sizeof(buffer)) != NULL)
+	{
 		printf("%s\n", buffer);
+		*shell->last_exit_code = 0;
+	}
 	else
 	{
 		perror("getcwd");
@@ -52,7 +55,8 @@ void	handle_env(t_shell *shell)
 
 	if (!shell || !shell->envp)
 	{
-		printf("minishell: env: no environment variables set\n");
+		fprintf(stderr, "minishell: env: no environment variables set\n");
+		*shell->last_exit_code = 1;
 		return ;
 	}
 	env = shell->envp;
@@ -61,4 +65,5 @@ void	handle_env(t_shell *shell)
 		printf("%s\n", *env);
 		env++;
 	}
+	*shell->last_exit_code = 0;
 }

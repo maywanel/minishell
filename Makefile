@@ -10,7 +10,7 @@ SRCS = $(wildcard src/*.c) \
 		$(wildcard detect_error/*.c)
 OBJS = $(SRCS:.c=.o)
 
-all: $(LIBFT) $(NAME)
+all: $(LIBFT) $(NAME) clean
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)

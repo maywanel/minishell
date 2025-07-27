@@ -25,7 +25,7 @@ void	gc_free(void **collector)
 	free(collector);
 }
 
-void	errorfree()
+void	errorfree(void)
 {
 	pro_collect(NULL);
 	cmd_collect(NULL);

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef ERROR_H
+#ifndef ERROR_H
 # define ERROR_H
 
 # define SE_PIPE "Syntax error near unexpected token `|\'\n"
@@ -21,4 +21,4 @@
 # define SE_QUOTES "Syntax error unbalanced quotes!\n"
 # define SE_NL "Syntax error near unexpected token `newline'\n"
 
-# endif
+#endif

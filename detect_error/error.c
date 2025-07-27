@@ -32,17 +32,18 @@ int	detect_error(char *s)
 int	se_find_type(t_token *token)
 {
 	t_red_type	red_type;
+
 	if (token->type == TOKEN_PIPE)
 		return (detect_error(SE_PIPE));
 	red_type = get_red_type(token);
 	if (red_type == REDIR_APPEND)
 		return (detect_error(SE_APPEND));
-        else if (red_type == REDIR_HEREDOC)
+	else if (red_type == REDIR_HEREDOC)
 		return (detect_error(SE_HEREDOC));
-        else if (red_type == REDIR_IN)
+	else if (red_type == REDIR_IN)
 		return (detect_error(SE_REDIN));
-        else
-                return (detect_error(SE_REDOUT));
+	else
+		return (detect_error(SE_REDOUT));
 }
 
 int	se_token(t_token *token)
@@ -52,7 +53,7 @@ int	se_token(t_token *token)
 	if (detect_error(NULL) == 1)
 		return (1);
 	if (token->type == TOKEN_PIPE)
-		return(detect_error(SE_PIPE));
+		return (detect_error(SE_PIPE));
 	next = token->next;
 	while (next != NULL)
 	{
@@ -62,6 +63,6 @@ int	se_token(t_token *token)
 		next = next->next;
 	}
 	if (token->type != TOKEN_WORD)
-		return(detect_error(SE_NL));
+		return (detect_error(SE_NL));
 	return (0);
 }

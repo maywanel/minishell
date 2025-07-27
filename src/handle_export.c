@@ -6,36 +6,35 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 21:02:40 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/05/28 16:31:10 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/07/27 13:46:26 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	update_env_var(char **envp, int idx, const char *var,
-		const char *value, int var_len)
+		const char *value)
 {
-	int	val_len;
-
 	if (!envp || !var || !value)
 		return ;
 	free(envp[idx]);
-	val_len = var_len + 1 + strlen(value);
-	envp[idx] = malloc(val_len + 1);
-	if (envp[idx])
-	{
-		envp[idx] = ft_strjoin(var, "=");
-		envp[idx] = ft_strjoin(envp[idx], value);
-		if (!envp[idx])
-		{
-			perror("minishell: export: memory allocation failed");
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
+	envp[idx] = create_env_string(var, value);
+	if (!envp[idx])
 	{
 		perror("minishell: export: memory allocation failed");
 		exit(EXIT_FAILURE);
+	}
+}
+
+static void	copy_existing_env(char **new_envp, char **old_envp, int count)
+{
+	int	e;
+
+	e = 0;
+	while (e < count)
+	{
+		new_envp[e] = old_envp[e];
+		e++;
 	}
 }
 
@@ -43,22 +42,16 @@ static void	add_env_var(t_shell *shell, const char *var, const char *value,
 		int var_len)
 {
 	int		count;
-	int		e;
 	int		val_len;
 	char	**new_envp;
 
 	count = 0;
-	e = 0;
 	while (shell->envp && shell->envp[count])
 		count++;
 	new_envp = malloc(sizeof(char *) * (count + 2));
 	if (!new_envp)
 		return ;
-	while (e < count)
-	{
-		new_envp[e] = shell->envp[e];
-		e++;
-	}
+	copy_existing_env(new_envp, shell->envp, count);
 	val_len = var_len + 1 + ft_strlen(value);
 	new_envp[count] = malloc(val_len + 1);
 	if (new_envp[count])
@@ -95,7 +88,7 @@ static void	export_variable(t_shell *shell, char *arg)
 	idx = find_env_var(shell->envp, var, var_len);
 	value = equal_sign + 1;
 	if (idx >= 0)
-		update_env_var(shell->envp, idx, var, value, var_len);
+		update_env_var(shell->envp, idx, var, value);
 	else
 		add_env_var(shell, var, value, var_len);
 	free(var);
@@ -109,7 +102,8 @@ void	handle_export(t_shell *shell, char **cmd)
 	i = 1;
 	if (cmd == NULL || cmd[0] == NULL)
 	{
-		printf("export: usage: export [name = value] ...]\n");
+		fprintf(stderr, "export: usage: export [name = value] ...]\n");
+		*shell->last_exit_code = 1;
 		return ;
 	}
 	if (cmd[1] == NULL)
@@ -117,6 +111,7 @@ void	handle_export(t_shell *shell, char **cmd)
 		j = 0;
 		while (shell->envp && shell->envp[j])
 			printf("%s\n", shell->envp[j++]);
+		*shell->last_exit_code = 0;
 		return ;
 	}
 	while (cmd[i])
@@ -124,4 +119,5 @@ void	handle_export(t_shell *shell, char **cmd)
 		export_variable(shell, cmd[i]);
 		i++;
 	}
+	*shell->last_exit_code = 0;
 }

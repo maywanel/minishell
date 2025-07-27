@@ -1,37 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   make_ast.c                                         :+:      :+:    :+:   */
+/*   make_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 20:10:08 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/27 04:12:46 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/27 14:11:37 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-t_token_type	get_token_type(char *s)
-{
-	if (*s == '>' || *s == '<')
-		return (TOKEN_REDIRECTION);
-	else if (*s == '|')
-		return (TOKEN_PIPE);
-	return (TOKEN_WORD);
-}
-
-t_red_type	get_red_type(t_token *token)
-{
-	if (*(token->txt) == '>' && token->len == 2)
-		return (REDIR_APPEND);
-	else if (*(token->txt) == '<' && token->len == 2)
-		return (REDIR_HEREDOC);
-	else if (*(token->txt) == '<')
-		return (REDIR_IN);
-	else
-		return (REDIR_OUT);
-}
 
 t_token	*split_tokenw(t_token **lexer)
 {
@@ -43,8 +22,8 @@ t_token	*split_tokenw(t_token **lexer)
 	while (next != NULL)
 	{
 		if (next->type != TOKEN_WORD)
-			break;
-		*lexer = next ;
+			break ;
+		*lexer = next;
 		next = next->next;
 	}
 	if (next != NULL)
@@ -57,7 +36,7 @@ void	token_add_back(t_token **token, t_token **lexer)
 {
 	t_token	*saver;
 
-	saver = *token ;
+	saver = *token;
 	if (*token == NULL)
 	{
 		*token = split_tokenw(lexer);
@@ -84,7 +63,8 @@ t_red	*make_red(t_token **lexer)
 		free(redirect);
 		return (NULL);
 	}
-	ft_strlcpy(redirect->target, redirect->token->txt, redirect->token->len + 1);
+	ft_strlcpy(redirect->target, redirect->token->txt, redirect->token->len
+		+ 1);
 	*lexer = (*lexer)->next;
 	*lexer = (*lexer)->next;
 	(redirect->token)->next = NULL;
@@ -92,27 +72,12 @@ t_red	*make_red(t_token **lexer)
 	return (redirect);
 }
 
-void	red_add_back(t_red **red, t_token **lexer)
-{
-	t_red	*saver;
-
-	saver = *red;
-	if (*red == NULL)
-	{
-		*red = make_red(lexer);
-		return ;
-	}
-	while ((*red)->next != NULL)
-	       *red = (*red)->next;
-	(*red)->next = make_red(lexer);
-	*red = saver;
-}
-
 t_cmd	*make_cmd(t_token *lexer)
+
 {
 	t_cmd	*cmd;
 
-	cmd = malloc (sizeof(t_cmd));
+	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
 	cmd->argv = NULL;
@@ -129,7 +94,7 @@ t_cmd	*make_cmd(t_token *lexer)
 		{
 			lexer = lexer->next;
 			cmd->next = make_cmd(lexer);
-			break;
+			break ;
 		}
 		else
 			lexer = lexer->next;

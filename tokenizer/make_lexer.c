@@ -32,7 +32,7 @@ t_token	*get_lexer(char *s)
 {
 	t_token	*token;
 	t_token	*node;
-	int	start;
+	int		start;
 
 	token = NULL;
 	start = 0;

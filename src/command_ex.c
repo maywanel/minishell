@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:44:32 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/05/28 16:26:48 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/07/27 13:52:59 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@ void	handle_command(t_shell *shell, char **cmd)
 	shell->path = find_path(shell, cmd);
 	if (!shell->path)
 	{
-		printf("minishell: %s: command not found\n", cmd[0]);
+		fprintf(stderr, "minishell: %s: command not found\n", cmd[0]);
+		*shell->last_exit_code = 127;
 		free_array(cmd);
 		return ;
 	}
 	if (access(shell->path, X_OK) == -1)
 	{
-		printf("minishell: %s: Permission denied\n", cmd[0]);
+		fprintf(stderr, "minishell: %s: Permission denied\n", cmd[0]);
+		*shell->last_exit_code = 126;
 		free_array(cmd);
-		free(shell->path);
 		shell->path = NULL;
 		return ;
 	}
@@ -72,24 +73,22 @@ void	execute_command(t_shell *shell, char **cmd)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
+		(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL));
 		len = ft_strlen(shell->path);
 		setup_redirection(shell->cmd_list);
 		if (len > 3 && ft_strncmp(shell->path + len - 3, ".sh", 3) == 0)
 			handle_script(shell, cmd);
 		else if (execve(shell->path, cmd, shell->envp) == -1)
-		{
-			perror("minishell");
-			exit(EXIT_FAILURE);
-		}
+			(perror("minishell"), exit(EXIT_FAILURE));
 	}
 	else if (pid < 0)
+	{
 		perror("fork");
+		*shell->last_exit_code = 1;
+	}
 	else
 		handle_child_process(shell, pid);
-	signal(SIGINT, handle_sigint);
-	free_array(cmd);
+	(signal(SIGINT, handle_sigint), free_array(cmd));
 }
 
 void	handle_child_process(t_shell *shell, pid_t pid)

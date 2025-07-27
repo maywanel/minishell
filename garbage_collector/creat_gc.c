@@ -14,7 +14,7 @@
 
 void	**gc_resizecollecter(int size, void **collector, void *ptr)
 {
-	int	i;
+	int		i;
 	void	**new_collector;
 
 	i = 0;
@@ -29,15 +29,15 @@ void	**gc_resizecollecter(int size, void **collector, void *ptr)
 		new_collector[i] = collector[i];
 		i++;
 	}
-	new_collector[i] = ptr ;
-	new_collector[i +1] = NULL;
+	new_collector[i] = ptr;
+	new_collector[i + 1] = NULL;
 	free(collector);
 	return (new_collector);
 }
 
 void	pro_collect(void *ptr)
 {
-	void	**save;
+	void		**save;
 	static void	**collector;
 	static int	size;
 
@@ -45,7 +45,7 @@ void	pro_collect(void *ptr)
 		gc_free(collector);
 	size++;
 	save = collector;
-	collector = malloc (size * sizeof(void *));
+	collector = malloc(size * sizeof(void *));
 	if (collector == NULL)
 	{
 		free(ptr);

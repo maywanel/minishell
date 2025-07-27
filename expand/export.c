@@ -14,4 +14,4 @@
 
 void	export(char *s)
 {
-	
+}

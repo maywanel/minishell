@@ -67,7 +67,8 @@ int	count_size(char *s, int start)
 	i = start;
 	if (is_specialchar(s[start]) == '|')
 		return (1);
-	else if (is_specialchar(s[start]) != 0 && (is_specialchar(s[start]) == is_specialchar(s[start + 1])))
+	else if (is_specialchar(s[start]) != 0
+		&& (is_specialchar(s[start]) == is_specialchar(s[start + 1])))
 		return (2);
 	else if (is_specialchar(s[start]) != 0)
 		return (1);
@@ -83,7 +84,7 @@ int	count_size(char *s, int start)
 t_token	*split(char *s, int *start)
 {
 	t_token	*token;
-	int	size;
+	int		size;
 
 	while (s[*start] && is_whitespace(s[*start]))
 		*start = *start + 1;
@@ -92,7 +93,7 @@ t_token	*split(char *s, int *start)
 		return (NULL);
 	token = malloc(sizeof(t_token));
 	token->txt = s + *start;
-	token->len = size ;
+	token->len = size;
 	token->type = get_token_type(s + *start);
 	token->next = NULL;
 	*start = *start + token->len;
