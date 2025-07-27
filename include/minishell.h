@@ -6,14 +6,14 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/26 12:59:24 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/27 05:48:57 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../detect_error/error.h"
+# include "error.h"
 # include "../libft/libft.h"
 # include <curses.h>
 # include <dirent.h>
@@ -95,7 +95,7 @@ typedef struct s_shell
 }					t_shell;
 
 
-int	error(char *s);
+int	detect_error(char *s);
 int	se_token(t_token *token);
 void				cd(char *av);
 void				free_array(char **array);

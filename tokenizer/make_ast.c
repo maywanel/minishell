@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 20:10:08 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/26 11:52:20 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/27 04:12:46 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,7 @@ t_cmd	*get_the_parser(char *s)
 	t_token	*lexer;
 
 	lexer = get_lexer(s);
+	if (lexer == NULL)
+		return (NULL);
 	return (make_cmd(lexer));
 }

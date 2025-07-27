@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:02:03 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/26 13:01:09 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/27 06:23:54 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,23 @@ void	count_insidequotes(char *s, int *saver)
 {
 	char	c;
 
+	if (s[*saver + 1] == 0)
+	{
+		detect_error(SE_QUOTES);
+		return ;
+	}
 	c = s[*saver];
 	*saver = *saver + 1;
-	while (s[*saver] != c && s[*saver] != 0)
-		*saver = *saver + 1;
-	if (s[*saver] == 0)
+	while (s[*saver] != c)
 	{
-		error(SE_QUOTES);
-		*saver = *saver - 1;
+		if (s[*saver] == 0)
+		{
+			detect_error(SE_QUOTES);
+			*saver = *saver - 1;
+			return ;
+		}
+		*saver = *saver + 1;
 	}
-
 }
 
 int	count_size(char *s, int start)

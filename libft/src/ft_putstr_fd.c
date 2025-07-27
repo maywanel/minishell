@@ -6,11 +6,11 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 16:53:42 by moel-mes          #+#    #+#             */
-/*   Updated: 2024/10/28 12:50:04 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/07/27 06:41:01 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {

@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 08:42:47 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/26 11:52:39 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/27 06:51:20 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,13 @@ t_token	*get_lexer(char *s)
 	{
 		node = split(s, &start);
 		if (node == NULL)
-			return (token);
+			break ;
 		token_addback(&token, node);
+	}
+	if (token != NULL && se_token(token) == 1)
+	{
+		detect_error(NULL);
+		return (NULL);
 	}
 	return (token);
 }
