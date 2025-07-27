@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/06/16 00:37:16 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/07/27 10:25:50 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	prompt(t_shell *shell)
 	{
 		add_history(shell->line);
 		shell->cmd_list = get_the_parser(shell->line);
+		if (shell->cmd_list == NULL)
+			return ;
 		if (shell->cmd_list->next)
 			handle_pipes(shell);
 		else

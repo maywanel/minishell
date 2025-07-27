@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/27 05:48:57 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/27 08:42:02 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,13 @@ typedef struct s_red
 	t_token			*token;
 	struct s_red	*next;
 }						t_red;
+
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+	struct s_env	*next;
+}			t_env;
 
 typedef struct s_cmd
 {
