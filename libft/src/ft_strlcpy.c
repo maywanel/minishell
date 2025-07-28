@@ -6,11 +6,11 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:26:58 by moel-mes          #+#    #+#             */
-/*   Updated: 2024/10/28 12:49:26 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/07/28 06:45:50 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t len)
 {

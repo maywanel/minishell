@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/27 13:46:26 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/07/28 06:41:55 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,6 @@ typedef struct s_red
 	struct s_red	*next;
 }					t_red;
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}					t_env;
-
 typedef struct s_cmd
 {
 	char			**argv;
@@ -102,6 +95,8 @@ typedef struct s_shell
 	char			*path;
 }					t_shell;
 
+int					ex_validchar(char c);
+int					count_insidequotes(char *s, int *saver);
 int					detect_error(char *s);
 int					se_token(t_token *token);
 void				cd(char *av);
