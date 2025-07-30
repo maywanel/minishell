@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 13:25:00 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/27 13:20:21 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:43:38 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	process_single_heredoc(t_red *redir, char *filename)
 		free(line);
 	}
 	free(line);
+	unlink(filename);
 	close(fd_heredoc);
 }
 

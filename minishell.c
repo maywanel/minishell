@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/27 10:25:50 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:43:14 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ static void	process_command(t_shell *shell)
 	if (!shell->cmd_list)
 		return ;
 	if (shell->cmd_list->next)
-		handle_pipes(shell);
+	handle_pipes(shell);
 	else
 	{
+		preprocess_all_heredocs(shell);
 		shell->cmd_list->argv = tokens_to_argv(shell->cmd_list->token);
 		if (shell->cmd_list->argv)
 			handle_command(shell, shell->cmd_list->argv);
