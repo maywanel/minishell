@@ -6,165 +6,97 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 03:38:29 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/29 06:17:44 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/31 07:06:45 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*env_get_value(char **env, char *str, int size)
+void	ex_cpy_insidesquote(char *src, char *dest, int *d_s, int *s_p)
 {
-	int	i;
+	int	c_quote;
 
-	i = 0;
-	while (env && env[i])
+	c_quote = 0;
+	while (c_quote < 2)
 	{
-		if (ft_strncmp(env[i], str, size) == 0)
+		if (src[*s_p] == '\'')
 		{
-			if (env[i][size] == '=')
-				return (env[i] + size + 1);
+			dest[*d_s] = '~';
+			c_quote++;
 		}
-		i++;
+		else
+			dest[*d_s] = src[*s_p];
+		*d_s = *d_s + 1;
+		*s_p = *s_p + 1;
 	}
-	return (NULL);
+	*d_s = *d_s - 1;
+	*s_p = *s_p - 1;
 }
 
-int	valid_key(char *s)
+int	replace_value(char **env, char *txt, char *new_txt, int *j)
+{
+	char	*value;
+	int		key_size;
+
+	key_size = valid_key(txt + 1);
+	if (key_size == 0)
+		new_txt[*j] = '$';
+	else
+	{
+		value = env_get_value(env, txt + 1, key_size);
+		if (value != NULL)
+			*j = *j + ft_strlcpy(new_txt + *j, value, ft_strlen(value) + 1) - 1;
+		else
+			*j = *j - 1;
+	}
+	return (key_size);
+}
+
+int	ex_cpy_insidedquote(char **env, char *src, char *dest, int *dst_start)
 {
 	int	i;
+	int	c_quote;
 
+	c_quote = 0;
 	i = 0;
-	while (!ft_isdigit(s[0]) && ex_validchar(s[i]))
-		i = i + 1;
+	while (c_quote < 2)
+	{
+		if (src[i] == '\"')
+		{
+			dest[*dst_start] = '~';
+			c_quote++;
+		}
+		else if (src[i] == '$')
+			i = i + replace_value(env, src + i, dest, dst_start);
+		else
+			dest[*dst_start] = src[i];
+		*dst_start = *dst_start + 1;
+		i++;
+	}
+	*dst_start = *dst_start - 1;
+	i--;
 	return (i);
 }
 
-int	should_expand(char **env, char *txt, int *size)
-{
-	char	*str;
-	int		ex_b_size;
-
-	ex_b_size = valid_key(txt);
-	if (ex_b_size == 0)
-		*size = *size + 1;
-	else
-	{
-		str = env_get_value(env, txt, ex_b_size);
-		if (str != NULL)
-			*size = *size + strlen(str);
-	}
-	return (ex_b_size);
-}
-
-int	size_of_new_token_txt(char **env, t_token *token)
-{
-	int	i;
-	int	size;
-
-	i = 0;
-	size = 0;
-	while (i < token->len)
-	{
-		if (token->txt[i] == '$')
-			i = i + should_expand(env, token->txt + i + 1, &size);
-		else if (token->txt[i] == '\'')
-			size = size + count_insidequotes(token->txt , &i);
-		else
-			size++;
-		i++;
-	}
-	return (size);
-}
-
-void	ex_cpy_insidedquote(char **env, char *src, char *dest, int *dst_start, int *src_plase)
-{
-	int	c_quote;
-	char	*value;
-	int	key_size;
-
-	c_quote = 0;
-	while(c_quote < 2)
-	{
-		if (src[*src_plase] == '\"')
-		{
-			dest[*dst_start] = '~';
-			c_quote++;
-		}
-		if (src[*src_plase] == '$')
-		{
-			key_size = valid_key(src + *src_plase + 1);
-			if (key_size > 0)
-			{
-				value = env_get_value(env, src + *src_plase + 1, key_size);
-				if (value != NULL)
-					*dst_start = *dst_start + ft_strlcpy(dest + *dst_start, value , ft_strlen(value) + 1) - 1;
-				*src_plase = *src_plase + key_size;
-			}
-			else
-				dest[*dst_start] = '$';
-		}		
-		else
-			dest[*dst_start] = src[*src_plase];
-		*dst_start = *dst_start + 1;
-		*src_plase = *src_plase + 1;
-	}
-	*dst_start = *dst_start - 1;
-	*src_plase = *src_plase - 1;
-}
-
-void	ex_cpy_insidesquote(char *src, char *dest, int *dst_start, int *src_plase)
-{
-	int	c_quote;
-
-	c_quote = 0;
-	while(c_quote < 2)
-	{
-		if (src[*src_plase] == '\'')
-		{
-			dest[*dst_start] = '~';
-			c_quote++;
-		}
-		else
-			dest[*dst_start] = src[*src_plase];
-		*dst_start = *dst_start + 1;
-		*src_plase = *src_plase + 1;
-	}
-	*dst_start = *dst_start - 1;
-	*src_plase = *src_plase - 1;
-}
-
-char	*new_token_txt(char **env, char *txt, int len)
+char	*new_token_txt(char **env, t_token *token, int newt_size)
 {
 	char	*new_txt;
-	char	*value;
-	int		key_size;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	new_txt = malloc(sizeof(char *) *(len + 1));
-	while (i < len)
+	new_txt = malloc(sizeof(char *) *(newt_size + 1));
+	while (i < token->len)
 	{
-		if (txt[i] == '$')
-		{
-			key_size = valid_key(txt + i + 1);
-			if (key_size > 0)
-			{
-				value = env_get_value(env, txt + i + 1, key_size);
-				if (value != NULL)
-					j = j + ft_strlcpy(new_txt + j, value , ft_strlen(value) + 1) - 1;
-				i = i + key_size;
-			}
-			else
-				new_txt[j] = '$';
-		}
-		else if (txt[i] == '\'')
-			ex_cpy_insidesquote(txt, new_txt, &j, &i);
-		else if (txt[i] == '\"')
-			ex_cpy_insidedquote(env, txt, new_txt, &i, &j);
+		if (token->txt[i] == '$')
+			i = i + replace_value(env, token->txt + i, new_txt, &j);
+		else if (token->txt[i] == '\'')
+			ex_cpy_insidesquote(token->txt, new_txt, &j, &i);
+		else if (token->txt[i] == '\"')
+			i = i + ex_cpy_insidedquote(env, token->txt, new_txt, &j);
 		else
-			new_txt[j] = txt[i];
+			new_txt[j] = token->txt[i];
 		i++;
 		j++;
 	}
@@ -174,41 +106,18 @@ char	*new_token_txt(char **env, char *txt, int len)
 
 void	ex_token(t_token *token, char **env)
 {
+	int	must_expand;
+	int	new_token_size;
+
+	must_expand = 0;
 	while (token != NULL)
 	{
-		token->len = size_of_new_token_txt(env, token);
-		if (token->len == 0)
+		new_token_size = size_of_new_token_txt(env, token, &must_expand);
+		if (new_token_size == 0)
 			token->txt = NULL;
-		else
-			token->txt = new_token_txt(env, token->txt, token->len);
+		else if (must_expand > 0)
+			token->txt = new_token_txt(env, token, new_token_size);
+		token->len = new_token_size;
 		token = token->next;
-	}
-}
-
-int main (int c, char **av, char **env)
-{
-	char *str;
-	t_token	*token;
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		printf("%s\n", env[i]);
-		i++;
-	}
-	while (1)
-	{
-		str = readline(">>");
-		if (str == NULL)
-			return(0);
-		add_history(str);
-		token = get_lexer(str);
-		ex_token(token, env);
-		while (token != NULL)
-		{
-			printf("%d ||| %s \n", token->len, token->txt);
-			token = token->next;
-		}
 	}
 }

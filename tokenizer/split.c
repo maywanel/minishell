@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:02:03 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/28 06:32:37 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/31 06:39:59 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	is_specialchar(char c)
 int	count_insidequotes(char *s, int *saver)
 {
 	char	c;
-	int	i;
+	int		i;
 
 	i = 2;
 	c = s[*saver];
