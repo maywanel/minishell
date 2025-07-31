@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 12:34:58 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/27 14:14:29 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/07/31 13:54:25 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static void	p_execute_command(t_cmd *cmd, t_shell *shell, int input_fd,
 
 	if (!cmd->token)
 		exit(EXIT_FAILURE);
+	ex_token(cmd->token, shell->envp);
 	argv = tokens_to_argv(cmd->token);
 	if (!argv)
 		exit(EXIT_FAILURE);

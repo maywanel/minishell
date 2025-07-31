@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/31 09:12:39 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/31 13:29:25 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,5 +157,7 @@ void				preprocess_all_heredocs(t_shell *shell);
 void				p_handle_child_process(t_cmd *cmd, t_shell *shell,
 						int input_fd, int pipefd[2]);
 char				*create_env_string(const char *var, const char *value);
+void				ex_token(t_token *token, char **env);
+t_token				*ef_token(t_token *token);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:44:32 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/30 13:33:06 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:45:04 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,23 @@ void	execute_command(t_shell *shell, char **cmd)
 
 void	handle_child_process(t_shell *shell, pid_t pid)
 {
-	int	status;
-	int	sig;
+	int		status;
+	int		sig;
 
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status))
 	{
 		sig = WTERMSIG(status);
 		if (sig == SIGINT)
+		{
+			printf("\n");
 			*shell->last_exit_code = 130;
+		}
 		else if (sig == SIGQUIT)
+		{
+			write(2, "Quit (core dumped)\n", 19);
 			*shell->last_exit_code = 131;
+		}
 		else
 			*shell->last_exit_code = 0;
 	}

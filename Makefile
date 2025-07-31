@@ -6,11 +6,12 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 SRCS = $(wildcard src/*.c) \
 		$(wildcard tokenizer/*.c) \
-		$(wildcard garbage_collector/*.c) \
-		$(wildcard detect_error/*.c)
+		$(wildcard detect_error/*.c) \
+		$(wildcard expand/*.c) \
+		#$(wildcard garbage_collector/*.c)
 OBJS = $(SRCS:.c=.o)
 
-all: $(LIBFT) $(NAME) clean
+all: $(LIBFT) $(NAME)
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)

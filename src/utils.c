@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:35:36 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/05/06 15:28:04 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:55:26 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,17 @@ void	get_promt_name(t_shell *shell)
 	{
 		perror("getcwd");
 	}
+}
+
+char	*create_env_string(const char *var, const char *value)
+{
+	char	*temp;
+	char	*result;
+
+	temp = ft_strjoin(var, "=");
+	if (!temp)
+		return (NULL);
+	result = ft_strjoin(temp, value);
+	free(temp);
+	return (result);
 }
