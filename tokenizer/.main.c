@@ -60,6 +60,6 @@ int main ()
 			exit(1);
 		add_history(s);
 		lexer = get_the_parser(s);
-		//print_node(lexer);
+		print_node(lexer);
 	}
 }

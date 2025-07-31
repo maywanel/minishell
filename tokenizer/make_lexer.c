@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 08:42:47 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/27 06:51:20 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/31 08:39:28 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	token_addback(t_token **token, t_token *new_token)
 	*token = saver;
 }
 
-t_token	*get_lexer(char *s)
+t_token	*get_lexer(char *s, char squotes, char dquotes)
 {
 	t_token	*token;
 	t_token	*node;
@@ -38,7 +38,7 @@ t_token	*get_lexer(char *s)
 	start = 0;
 	while (1)
 	{
-		node = split(s, &start);
+		node = split(s, &start, squotes, dquotes);
 		if (node == NULL)
 			break ;
 		token_addback(&token, node);

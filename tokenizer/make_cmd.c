@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 20:10:08 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/27 14:11:37 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/07/31 08:40:39 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_cmd	*get_the_parser(char *s)
 {
 	t_token	*lexer;
 
-	lexer = get_lexer(s);
+	lexer = get_lexer(s, '\'', '\"');
 	if (lexer == NULL)
 		return (NULL);
 	return (make_cmd(lexer));

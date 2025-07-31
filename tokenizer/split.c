@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:02:03 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/31 06:39:59 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/31 08:37:46 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	count_insidequotes(char *s, int *saver)
 	return (i);
 }
 
-int	count_size(char *s, int start)
+int	count_size(char *s, int start, char squotes, char dquotes)
 {
 	int	i;
 
@@ -73,21 +73,21 @@ int	count_size(char *s, int start)
 		return (1);
 	while (s[i] && is_specialchar(s[i]) == 0 && is_whitespace(s[i]) == 0)
 	{
-		if (s[i] == '\'' || s[i] == '\"')
+		if (s[i] == squotes || s[i] == dquotes)
 			count_insidequotes(s, &i);
 		i++;
 	}
 	return (i - start);
 }
 
-t_token	*split(char *s, int *start)
+t_token	*split(char *s, int *start, char squotes, char dquotes)
 {
 	t_token	*token;
 	int		size;
 
 	while (s[*start] && is_whitespace(s[*start]))
 		*start = *start + 1;
-	size = count_size(s, *start);
+	size = count_size(s, *start, squotes, dquotes);
 	if (size == 0)
 		return (NULL);
 	token = malloc(sizeof(t_token));

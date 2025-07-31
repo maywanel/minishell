@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 03:38:29 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/31 07:06:45 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/31 08:47:53 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ex_cpy_insidesquote(char *src, char *dest, int *d_s, int *s_p)
 	{
 		if (src[*s_p] == '\'')
 		{
-			dest[*d_s] = '~';
+			dest[*d_s] = -1;
 			c_quote++;
 		}
 		else
@@ -63,7 +63,7 @@ int	ex_cpy_insidedquote(char **env, char *src, char *dest, int *dst_start)
 	{
 		if (src[i] == '\"')
 		{
-			dest[*dst_start] = '~';
+			dest[*dst_start] = -1;
 			c_quote++;
 		}
 		else if (src[i] == '$')

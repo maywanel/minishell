@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/31 07:02:21 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/31 09:12:39 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_shell
 	char			*path;
 }					t_shell;
 
+t_token	*ef_token(t_token *token);
 char	*env_get_value(char **env, char *str, int size);
 int					valid_key(char *s);
 int					size_of_new_token_txt(char **env, t_token *token, int *must_expand);
@@ -132,7 +133,7 @@ void				handle_echo(t_shell *shell, char **cmd);
 t_cmd				*get_the_parser(char *s);
 t_cmd				*make_cmd(t_token *lexer);
 void				token_addback(t_token **token, t_token *new_token);
-t_token				*get_lexer(char *s);
+t_token				*get_lexer(char *s, char squotes, char dquotes);
 t_token_type		get_token_type(char *s);
 t_token				*get_token(char *s, int start, int end);
 t_red_type			get_red_type(t_token *token);
@@ -147,7 +148,7 @@ void				*cmd_malloc(size_t size);
 void				errorfree(void);
 void				gc_free(void **collector);
 int					count_word(char *s);
-t_token				*split(char *s, int *start);
+t_token				*split(char *s, int *start, char squotes, char dquotes);
 int					p_ciquotes(char **s, char c);
 char				**nl_split(char *s);
 char				**tokens_to_argv(t_token *token);
