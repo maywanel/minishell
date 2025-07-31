@@ -6,6 +6,7 @@ int main (int c, char **av, char *env[])
 	av = NULL;
 	char *str;
 	t_token	*token;
+	t_token	*fs_token;
 	int	i;
 
 	i = 0;
@@ -24,11 +25,16 @@ int main (int c, char **av, char *env[])
 		add_history(str);
 		token = get_lexer(str, '\'', '\"');
 		ex_token(token, env);
-		token = ef_token(token);
+		fs_token = ef_token(token);
 		while (token != NULL)
 		{
 			printf("%d ||| %s \n", token->len, token->txt);
 			token = token->next;
+		}
+		while (fs_token != NULL)
+		{
+			printf("%d ||| %s \n", fs_token->len, fs_token->txt);
+			fs_token = fs_token->next;
 		}
 	}
 }

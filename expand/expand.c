@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 03:38:29 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/31 08:47:53 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:27:55 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	ex_cpy_insidesquote(char *src, char *dest, int *d_s, int *s_p)
 		}
 		else
 			dest[*d_s] = src[*s_p];
+		if (c_quote == 2)
+			break ;
 		*d_s = *d_s + 1;
 		*s_p = *s_p + 1;
 	}
-	*d_s = *d_s - 1;
-	*s_p = *s_p - 1;
 }
 
 int	replace_value(char **env, char *txt, char *new_txt, int *j)
@@ -94,7 +94,7 @@ char	*new_token_txt(char **env, t_token *token, int newt_size)
 		else if (token->txt[i] == '\'')
 			ex_cpy_insidesquote(token->txt, new_txt, &j, &i);
 		else if (token->txt[i] == '\"')
-			i = i + ex_cpy_insidedquote(env, token->txt, new_txt, &j);
+			i = i + ex_cpy_insidedquote(env, token->txt + i, new_txt, &j);
 		else
 			new_txt[j] = token->txt[i];
 		i++;
