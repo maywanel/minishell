@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 03:38:29 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/31 11:27:55 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/01 04:02:23 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,16 +106,14 @@ char	*new_token_txt(char **env, t_token *token, int newt_size)
 
 void	ex_token(t_token *token, char **env)
 {
-	int	must_expand;
 	int	new_token_size;
 
-	must_expand = 0;
 	while (token != NULL)
 	{
-		new_token_size = size_of_new_token_txt(env, token, &must_expand);
+		new_token_size = size_of_new_token_txt(env, token);
 		if (new_token_size == 0)
 			token->txt = NULL;
-		else if (must_expand > 0)
+		else
 			token->txt = new_token_txt(env, token, new_token_size);
 		token->len = new_token_size;
 		token = token->next;
