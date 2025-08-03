@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 08:42:47 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/31 08:39:28 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/01 12:45:05 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,19 @@ void	token_addback(t_token **token, t_token *new_token)
 		*token = (*token)->next;
 	(*token)->next = new_token;
 	*token = saver;
+}
+
+t_token	*make_token_node(char *s)
+{
+	t_token	*node;
+
+	if (s == NULL)
+		return (NULL);
+	node = malloc(sizeof(t_token));
+	node->txt = ft_strdup(s);
+	node->len = ft_strlen(s);
+	node->next = NULL;
+	return (node);
 }
 
 t_token	*get_lexer(char *s, char squotes, char dquotes)
