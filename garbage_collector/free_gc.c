@@ -6,23 +6,15 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 10:47:59 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/06/10 14:19:37 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/05 14:44:49 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
-void	gc_free(void **collector)
+void	gc_free(t_list **collector)
 {
-	int	i;
-
-	i = 0;
-	while (collector[i] != NULL)
-	{
-		free(collector[i]);
-		i++;
-	}
-	free(collector);
+	ft_lstclear(collector, free);
 }
 
 void	errorfree(void)

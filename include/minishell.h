@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/05 13:44:21 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/05 14:46:25 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void				pro_collect(void *ptr);
 void				*pro_malloc(size_t size);
 void				*cmd_malloc(size_t size);
 void				errorfree(void);
-void				gc_free(void **collector);
+void				gc_free(t_list **collector);
 int					count_word(char *s);
 t_token				*split(char *s, int *start, char squotes, char dquotes);
 int					p_ciquotes(char **s, char c);
