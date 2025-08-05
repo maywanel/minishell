@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/01 10:20:34 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/05 13:44:21 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,10 @@ typedef struct s_shell
 	char			*path;
 }					t_shell;
 
+char				**convert_to_ptr(t_token *token);
+t_token				*get_wild_card(t_token *token);
+t_token				*get_files();
+t_token				*make_token_node(char *s);
 bool				valid_patren(t_token *token);
 t_token				*ef_token(t_token *token);
 char				*env_get_value(char **env, char *str, int size);

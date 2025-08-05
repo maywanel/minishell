@@ -5,12 +5,12 @@ int main (int c, char **av, char *env[])
 	c = 1;
 	av = NULL;
 	char *str;
+	char	**strs;
 	t_token	*token;
-	t_token	*fs_token;
 	int	i;
 
 	i = 0;
-	env[0] = "ls=\"f      \t\"";
+	env[0] = "ls=";
 	env[1] = "jk= \t*\n";
 	while (env[i])
 	{
@@ -25,11 +25,24 @@ int main (int c, char **av, char *env[])
 		add_history(str);
 		token = get_lexer(str, '\'', '\"');
 		ex_token(token, env);
-		fs_token = ef_token(token);
+		token = ef_token(token);
+		token = get_wild_card(token);
+		strs = convert_to_ptr(token);
+		while (*strs)
+		{
+			printf("%s|||||\n", *strs);
+			strs++;
+		}
+		/*while (token != NULL)
+		{
+			if (token->txt != NULL)
+				printf("  ||| %d ||| %s \n", token->len, token->txt);
+			token = token->next;
+		}
 		while (fs_token != NULL)
 		{
 			printf("  ||| %d ||| %.*s \n", fs_token->len, fs_token->len, fs_token->txt);
 			fs_token = fs_token->next;
-		}
+		}*/
 	}
 }
