@@ -64,21 +64,3 @@ char	*cpyftoken(t_token *token)
 		return (token->txt);
 	return (creat_nstr(token));
 }
-
-char	**convert_to_ptr(t_token *token)
-{
-	int	args_size;
-	char	**args;
-
-	args_size = token_size(token);
-	args = pro_malloc (sizeof(char **) * (args_size + 1));
-	args_size = 0;
-	while (token != NULL)
-	{
-		args[args_size] = cpyftoken(token);
-		args_size++;
-		token = token->next;
-	}
-	args[args_size] = NULL;
-	return (args);
-}

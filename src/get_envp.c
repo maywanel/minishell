@@ -72,7 +72,7 @@ char	**get_envp(t_shell *shell)
 
 	if (!shell || !shell->envp)
 		return (NULL);
-	envp = pro_malloc(sizeof(char *) * (ft_strarrlen(shell->envp) + 1));
+	envp = pro_malloc(sizeof(char *) * (ft_strarrlen(shell->envp) + 2));
 	if (!envp)
 		return (NULL);
 	i = 0;

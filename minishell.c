@@ -25,7 +25,7 @@ static void	process_command(t_shell *shell)
 	else
 	{
 		preprocess_all_heredocs(shell);
-		ex_token(shell->cmd_list->token, shell->envp);
+		shell->cmd_list->token = last_token(shell->cmd_list->token, shell->envp);
 		shell->cmd_list->argv = tokens_to_argv(shell->cmd_list->token);
 		if (shell->cmd_list->argv)
 			handle_command(shell, shell->cmd_list->argv);

@@ -47,3 +47,19 @@ int	ex_validchar(char c)
 		return (1);
 	return (0);
 }
+
+t_token	*last_token(t_token *token, char **env)
+{
+	t_token	*tmp;
+
+	ex_token(token, env);
+	token = ef_token(token);
+	token = get_wild_card(token);
+	tmp = token;
+	while (tmp)
+	{
+		tmp->txt = cpyftoken(tmp);
+		tmp = tmp->next;
+	}
+	return (token);
+}

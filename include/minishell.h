@@ -165,5 +165,7 @@ void				ex_token(t_token *token, char **env);
 t_token				*ef_token(t_token *token);
 char 				*pro_strdup(const char *s);
 int					get_exit_code(int code);
+t_token				*last_token(t_token *token, char **env);
+char				*cpyftoken(t_token *token);
 
 #endif

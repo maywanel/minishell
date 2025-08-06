@@ -79,7 +79,7 @@ static void	p_execute_command(t_cmd *cmd, t_shell *shell, int input_fd,
 
 	if (!cmd->token)
 		exit(EXIT_FAILURE);
-	ex_token(cmd->token, shell->envp);
+	shell->cmd_list->token = last_token(shell->cmd_list->token, shell->envp);
 	argv = tokens_to_argv(cmd->token);
 	if (!argv)
 		exit(EXIT_FAILURE);
