@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:02:03 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/31 08:37:46 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/06 09:34:13 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_token	*split(char *s, int *start, char squotes, char dquotes)
 	size = count_size(s, *start, squotes, dquotes);
 	if (size == 0)
 		return (NULL);
-	token = malloc(sizeof(t_token));
+	token = pro_malloc(sizeof(t_token));
 	token->txt = s + *start;
 	token->len = size;
 	token->type = get_token_type(s + *start);

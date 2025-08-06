@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/05 14:46:25 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:39:28 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ typedef struct s_shell
 	char			*name;
 	char			*line;
 	t_cmd			*cmd_list;
-	long			*last_exit_code;
 	bool			running;
 	char			*path;
 }					t_shell;
@@ -115,7 +114,7 @@ void				handle_sigint(int sig);
 char				*find_path(t_shell *shell, char **cmd);
 void				handle_cd_command(t_shell *shell, char **cmd);
 void				prompt(t_shell *shell);
-void				handle_child_process(t_shell *shell, pid_t pid);
+void				handle_child_process(pid_t pid);
 void				execute_command(t_shell *shell, char **cmd);
 void				handle_exit(t_shell *shell, char **cmd);
 long				ft_exit_code(char *str);
@@ -126,7 +125,7 @@ void				handle_command(t_shell *shell, char **cmd);
 void				handle_pipes(t_shell *shell);
 void				get_promt_name(t_shell *shell);
 void				handle_script(t_shell *shell, char **cmd);
-void				handle_pwd(t_shell *shell);
+void				handle_pwd();
 void				handle_export(t_shell *shell, char **cmd);
 void				handle_unset(char **args, t_shell *shell);
 void				unset_env_var(const char *var, t_shell *shell);
@@ -151,7 +150,7 @@ void				pro_collect(void *ptr);
 void				*pro_malloc(size_t size);
 void				*cmd_malloc(size_t size);
 void				errorfree(void);
-void				gc_free(t_list **collector);
+void				gc_free(t_list **collector, int number);
 int					count_word(char *s);
 t_token				*split(char *s, int *start, char squotes, char dquotes);
 int					p_ciquotes(char **s, char c);
@@ -164,5 +163,7 @@ void				p_handle_child_process(t_cmd *cmd, t_shell *shell,
 char				*create_env_string(const char *var, const char *value);
 void				ex_token(t_token *token, char **env);
 t_token				*ef_token(t_token *token);
+char 				*pro_strdup(const char *s);
+int					get_exit_code(int code);
 
 #endif

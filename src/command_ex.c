@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:44:32 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/31 14:45:04 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:39:28 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,13 @@ void	handle_command(t_shell *shell, char **cmd)
 	if (!shell->path)
 	{
 		fprintf(stderr, "minishell: %s: command not found\n", cmd[0]);
-		*shell->last_exit_code = 127;
-		free_array(cmd);
+		get_exit_code(127);
 		return ;
 	}
 	if (access(shell->path, X_OK) == -1)
 	{
 		fprintf(stderr, "minishell: %s: Permission denied\n", cmd[0]);
-		*shell->last_exit_code = 126;
-		free_array(cmd);
+		get_exit_code(126);
 		shell->path = NULL;
 		return ;
 	}
@@ -44,23 +42,23 @@ void	handle_script(t_shell *shell, char **cmd)
 	arg_count = 0;
 	while (cmd[arg_count])
 		arg_count++;
-	script_cmd = malloc(sizeof(char *) * (arg_count + 2));
+	script_cmd = pro_malloc(sizeof(char *) * (arg_count + 2));
 	if (!script_cmd)
 	{
-		perror("malloc");
+		perror("pro_malloc");
 		exit(EXIT_FAILURE);
 	}
-	script_cmd[0] = ft_strdup("/bin/bash");
-	script_cmd[1] = ft_strdup(shell->path);
+	script_cmd[0] = pro_strdup("/bin/bash");
+	script_cmd[1] = pro_strdup(shell->path);
 	i = 1;
 	while (i < arg_count)
 	{
-		script_cmd[i + 1] = ft_strdup(cmd[i]);
+		script_cmd[i + 1] = pro_strdup(cmd[i]);
 		i++;
 	}
 	script_cmd[arg_count + 1] = NULL;
 	execve("/bin/bash", script_cmd, shell->envp);
-	free_array(script_cmd);
+	pro_collect(NULL);
 	(perror("minishell"), exit(EXIT_FAILURE));
 }
 
@@ -84,14 +82,14 @@ void	execute_command(t_shell *shell, char **cmd)
 	else if (pid < 0)
 	{
 		perror("fork");
-		*shell->last_exit_code = 1;
+		get_exit_code(1);
 	}
 	else
-		handle_child_process(shell, pid);
-	(signal(SIGINT, handle_sigint), free_array(cmd));
+		handle_child_process(pid);
+	signal(SIGINT, handle_sigint);
 }
 
-void	handle_child_process(t_shell *shell, pid_t pid)
+void	handle_child_process(pid_t pid)
 {
 	int		status;
 	int		sig;
@@ -103,16 +101,16 @@ void	handle_child_process(t_shell *shell, pid_t pid)
 		if (sig == SIGINT)
 		{
 			printf("\n");
-			*shell->last_exit_code = 130;
+			get_exit_code(130);
 		}
 		else if (sig == SIGQUIT)
 		{
 			write(2, "Quit (core dumped)\n", 19);
-			*shell->last_exit_code = 131;
+			get_exit_code(131);
 		}
 		else
-			*shell->last_exit_code = 0;
+			get_exit_code(0);
 	}
 	else if (WIFEXITED(status))
-		*shell->last_exit_code = WEXITSTATUS(status);
+		get_exit_code(WEXITSTATUS(status));
 }

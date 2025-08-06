@@ -3,18 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   free_gc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 10:47:59 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/05 14:44:49 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:31:49 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	gc_free(t_list **collector)
+void	gc_free(t_list **collector, int number)
 {
-	ft_lstclear(collector, free);
+	t_list	*temp;
+	t_list	*next;
+
+	if (!collector || !*collector)
+		return ;
+	temp = *collector;
+	while (temp && number > 0)
+	{
+		next = temp->next;
+		free(temp->content);
+		free(temp);
+		temp = next;
+		number--;
+	}
+	*collector = temp;
 }
 
 void	errorfree(void)

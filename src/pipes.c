@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 08:53:44 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/27 13:21:31 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:21:11 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	process_pipe_command(t_cmd *cmd, t_shell *shell, int *input_fd,
 		if (pipe(pipefd) == -1)
 		{
 			perror("pipe");
+			pro_collect(NULL);
 			exit(EXIT_FAILURE);
 		}
 	}

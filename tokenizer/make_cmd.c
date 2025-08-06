@@ -52,17 +52,14 @@ t_red	*make_red(t_token **lexer)
 {
 	t_red	*redirect;
 
-	redirect = malloc(sizeof(t_red));
+	redirect = pro_malloc(sizeof(t_red));
 	if (!redirect)
 		return (NULL);
 	redirect->red_type = get_red_type(*lexer);
 	redirect->token = (*lexer)->next;
-	redirect->target = malloc(redirect->token->len + 1);
+	redirect->target = pro_malloc(redirect->token->len + 1);
 	if (!redirect->target)
-	{
-		free(redirect);
 		return (NULL);
-	}
 	ft_strlcpy(redirect->target, redirect->token->txt, redirect->token->len
 		+ 1);
 	*lexer = (*lexer)->next;
@@ -77,7 +74,7 @@ t_cmd	*make_cmd(t_token *lexer)
 {
 	t_cmd	*cmd;
 
-	cmd = malloc(sizeof(t_cmd));
+	cmd = pro_malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
 	cmd->argv = NULL;

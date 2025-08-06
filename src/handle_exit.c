@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:44:08 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/27 14:18:17 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:24:50 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ long	ft_exit_code(char *str)
 	return (code * sign);
 }
 
-static int	process_exit_arguments(t_shell *shell, char **cmd)
+static int	process_exit_arguments(char **cmd)
 {
 	long	temp_code;
 
@@ -65,7 +65,7 @@ static int	process_exit_arguments(t_shell *shell, char **cmd)
 	if (cmd[2] != NULL)
 	{
 		fprintf(stderr, "minishell: exit: too many arguments\n");
-		*shell->last_exit_code = 1;
+		get_exit_code(1);
 		return (-1);
 	}
 	if (!is_valid_number(cmd[1]))
@@ -89,9 +89,9 @@ void	handle_exit(t_shell *shell, char **cmd)
 	int	exit_code;
 
 	printf("exit\n");
-	exit_code = process_exit_arguments(shell, cmd);
+	exit_code = process_exit_arguments(cmd);
 	if (exit_code == -1)
 		return ;
-	*shell->last_exit_code = exit_code;
+	get_exit_code(exit_code);
 	shell->running = false;
 }

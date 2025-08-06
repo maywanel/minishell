@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:51:27 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/27 14:15:09 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:17:05 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,5 @@ void	handle_unset(char **args, t_shell *shell)
 		unset_env_var(args[i], shell);
 		i++;
 	}
-	*shell->last_exit_code = 0;
+	get_exit_code(0);
 }

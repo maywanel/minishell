@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 11:46:27 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/27 11:46:28 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:39:28 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*find_path(t_shell *shell, char **cmd)
 	if (!cmd || !cmd[0])
 		return (NULL);
 	if (cmd[0][0] == '/' || cmd[0][0] == '.')
-		return (ft_strdup(cmd[0]));
+		return (pro_strdup(cmd[0]));
 	path = ft_getenv(shell, "PATH");
 	if (!path)
 		return (NULL);

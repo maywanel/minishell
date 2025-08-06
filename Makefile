@@ -8,7 +8,7 @@ SRCS = $(wildcard src/*.c) \
 		$(wildcard tokenizer/*.c) \
 		$(wildcard detect_error/*.c) \
 		$(wildcard expand/*.c) \
-		#$(wildcard garbage_collector/*.c)
+		$(wildcard garbage_collector/*.c)
 OBJS = $(SRCS:.c=.o)
 
 all: $(LIBFT) $(NAME)

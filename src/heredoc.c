@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 13:25:00 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/31 14:14:51 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 09:47:38 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*create_heredoc_filename(int cmd_index, int heredoc_index)
 {
 	char	*filename;
 
-	filename = malloc(50);
+	filename = pro_malloc(50);
 	if (!filename)
 		return (NULL);
 	sprintf(filename, ".heredoc_tmp_%d_%d", cmd_index, heredoc_index);
@@ -32,6 +32,7 @@ static void	process_single_heredoc(t_red *redir, char *filename)
 	if (fd_heredoc == -1)
 	{
 		perror("open heredoc");
+		pro_collect(NULL);
 		exit(EXIT_FAILURE);
 	}
 	while (1)

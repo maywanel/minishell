@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 08:42:47 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/05 11:29:30 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:39:28 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ t_token	*make_token_node(char *s)
 
 	if (s == NULL)
 		return (NULL);
-	node = malloc(sizeof(t_token));
-	node->txt = ft_strdup(s);
+	node = pro_malloc(sizeof(t_token));
+	node->txt = pro_strdup(s);
 	node->len = ft_strlen(s);
 	node->next = NULL;
 	return (node);

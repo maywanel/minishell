@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 21:02:40 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/27 13:46:26 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:16:54 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	update_env_var(char **envp, int idx, const char *var,
 	if (!envp[idx])
 	{
 		perror("minishell: export: memory allocation failed");
+		pro_collect(NULL);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -80,7 +81,7 @@ static void	export_variable(t_shell *shell, char *arg)
 		return ;
 	}
 	var_len = equal_sign - arg;
-	var = malloc(var_len + 1);
+	var = pro_malloc(var_len + 1);
 	if (!var)
 		return ;
 	ft_strlcpy(var, arg, var_len + 1);
@@ -91,7 +92,6 @@ static void	export_variable(t_shell *shell, char *arg)
 		update_env_var(shell->envp, idx, var, value);
 	else
 		add_env_var(shell, var, value, var_len);
-	free(var);
 }
 
 void	handle_export(t_shell *shell, char **cmd)
@@ -103,7 +103,7 @@ void	handle_export(t_shell *shell, char **cmd)
 	if (cmd == NULL || cmd[0] == NULL)
 	{
 		fprintf(stderr, "export: usage: export [name = value] ...]\n");
-		*shell->last_exit_code = 1;
+		get_exit_code(1);
 		return ;
 	}
 	if (cmd[1] == NULL)
@@ -111,7 +111,7 @@ void	handle_export(t_shell *shell, char **cmd)
 		j = 0;
 		while (shell->envp && shell->envp[j])
 			printf("%s\n", shell->envp[j++]);
-		*shell->last_exit_code = 0;
+		get_exit_code(0);
 		return ;
 	}
 	while (cmd[i])
@@ -119,5 +119,5 @@ void	handle_export(t_shell *shell, char **cmd)
 		export_variable(shell, cmd[i]);
 		i++;
 	}
-	*shell->last_exit_code = 0;
+	get_exit_code(0);
 }

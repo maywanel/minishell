@@ -86,7 +86,7 @@ char	*new_token_txt(char **env, t_token *token, int newt_size)
 
 	i = 0;
 	j = 0;
-	new_txt = malloc(sizeof(char *) *(newt_size + 1));
+	new_txt = pro_malloc(sizeof(char *) *(newt_size + 1));
 	while (i < token->len)
 	{
 		if (token->txt[i] == '$')

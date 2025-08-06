@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 13:09:38 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/31 14:26:36 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 09:44:35 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	fill_argv(char **argv, t_token *token)
 	temp = token;
 	while (temp)
 	{
-		argv[i] = malloc(temp->len + 1);
+		argv[i] = pro_malloc(temp->len + 1);
 		if (!argv[i])
 			return (0);
 		ft_strlcpy(argv[i], temp->txt, temp->len + 1);
@@ -55,13 +55,10 @@ char	**tokens_to_argv(t_token *token)
 	if (!token)
 		return (NULL);
 	token_count = count_tokens(token);
-	argv = malloc(sizeof(char *) * (token_count + 1));
+	argv = pro_malloc(sizeof(char *) * (token_count + 1));
 	if (!argv)
 		return (NULL);
 	if (!fill_argv(argv, token))
-	{
-		free(argv);
 		return (NULL);
-	}
 	return (argv);
 }

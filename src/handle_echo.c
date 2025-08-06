@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:35:59 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/31 13:54:25 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:16:01 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,5 @@ void	handle_echo(t_shell *shell, char **cmd)
 	}
 	if (newline)
 		printf("\n");
-	*shell->last_exit_code = 0;
+	get_exit_code(0);
 }

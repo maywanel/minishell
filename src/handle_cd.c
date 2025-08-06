@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:43:14 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/27 13:46:26 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:15:49 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,16 @@ void	handle_cd_command(t_shell *shell, char **cmd)
 	{
 		cd(NULL);
 		if (chdir(getenv("HOME")) != 0)
-			*shell->last_exit_code = 1;
+			get_exit_code(1);
 		else
-			*shell->last_exit_code = 0;
+			get_exit_code(0);
 	}
 	else
 	{
 		if (chdir(cmd[1]) != 0)
-			*shell->last_exit_code = 1;
+			get_exit_code(1);
 		else
-			*shell->last_exit_code = 0;
+			get_exit_code(0);
 	}
 	get_promt_name(shell);
-	free(cmd);
 }

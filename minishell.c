@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/07/31 14:20:28 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:33:50 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static void	process_command(t_shell *shell)
 		shell->cmd_list->argv = tokens_to_argv(shell->cmd_list->token);
 		if (shell->cmd_list->argv)
 			handle_command(shell, shell->cmd_list->argv);
-		else
-			free(shell->cmd_list);
 	}
 }
 
@@ -55,7 +53,6 @@ static void	init_shell(t_shell *shell)
 	shell->envp = get_envp(shell);
 	shell->line = NULL;
 	shell->cmd_list = NULL;
-	*shell->last_exit_code = 0;
 	shell->running = true;
 	get_promt_name(shell);
 }
@@ -67,20 +64,20 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	shell = malloc(sizeof(t_shell));
-	shell->last_exit_code = malloc(sizeof(long));
-	if (!shell || !shell->last_exit_code)
+	shell = pro_malloc(sizeof(t_shell));
+	if (!shell)
+	{
+		pro_collect(NULL);
 		return (1);
+	}
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	shell->envp = envp;
 	init_shell(shell);
 	while (shell->running)
 		prompt(shell);
-	exit_code = *shell->last_exit_code;
-	free(shell->name);
-	free(shell->last_exit_code);
-	free_array(shell->envp);
-	free(shell);
+	exit_code = get_exit_code(-1);
+	pro_collect(NULL);
+	// free_array(shell->envp);
 	return (exit_code);
 }
