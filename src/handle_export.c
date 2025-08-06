@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 21:02:40 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 10:16:54 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:56:55 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	update_env_var(char **envp, int idx, const char *var,
 {
 	if (!envp || !var || !value)
 		return ;
-	free(envp[idx]);
 	envp[idx] = create_env_string(var, value);
 	if (!envp[idx])
 	{
@@ -49,12 +48,12 @@ static void	add_env_var(t_shell *shell, const char *var, const char *value,
 	count = 0;
 	while (shell->envp && shell->envp[count])
 		count++;
-	new_envp = malloc(sizeof(char *) * (count + 2));
+	new_envp = pro_malloc(sizeof(char *) * (count + 2));
 	if (!new_envp)
 		return ;
 	copy_existing_env(new_envp, shell->envp, count);
 	val_len = var_len + 1 + ft_strlen(value);
-	new_envp[count] = malloc(val_len + 1);
+	new_envp[count] = pro_malloc(val_len + 1);
 	if (new_envp[count])
 	{
 		ft_memcpy(new_envp[count], var, var_len);
@@ -62,7 +61,6 @@ static void	add_env_var(t_shell *shell, const char *var, const char *value,
 		ft_strlcpy(new_envp[count] + var_len + 1, value, ft_strlen(value) + 1);
 	}
 	new_envp[count + 1] = NULL;
-	free(shell->envp);
 	shell->envp = new_envp;
 }
 
@@ -81,7 +79,7 @@ static void	export_variable(t_shell *shell, char *arg)
 		return ;
 	}
 	var_len = equal_sign - arg;
-	var = pro_malloc(var_len + 1);
+	var = malloc(var_len + 1);
 	if (!var)
 		return ;
 	ft_strlcpy(var, arg, var_len + 1);
@@ -92,6 +90,7 @@ static void	export_variable(t_shell *shell, char *arg)
 		update_env_var(shell->envp, idx, var, value);
 	else
 		add_env_var(shell, var, value, var_len);
+	free(var);
 }
 
 void	handle_export(t_shell *shell, char **cmd)

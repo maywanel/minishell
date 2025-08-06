@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:51:27 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 10:17:05 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:58:37 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	unset_env_var(const char *var, t_shell *shell)
 			&& (shell->envp[i][ft_strlen(var)] == '='
 			|| shell->envp[i][ft_strlen(var)] == '\0'))
 		{
-			free(shell->envp[i]);
 			while (shell->envp[i])
 			{
 				shell->envp[i] = shell->envp[i + 1];

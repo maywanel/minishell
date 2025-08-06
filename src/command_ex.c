@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:44:32 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 10:39:28 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 21:22:21 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	handle_command(t_shell *shell, char **cmd)
 	if (!shell->path)
 	{
 		fprintf(stderr, "minishell: %s: command not found\n", cmd[0]);
+		free(shell->path);
 		get_exit_code(127);
 		return ;
 	}
@@ -27,6 +28,7 @@ void	handle_command(t_shell *shell, char **cmd)
 	{
 		fprintf(stderr, "minishell: %s: Permission denied\n", cmd[0]);
 		get_exit_code(126);
+		free(shell->path);
 		shell->path = NULL;
 		return ;
 	}
@@ -86,6 +88,7 @@ void	execute_command(t_shell *shell, char **cmd)
 	}
 	else
 		handle_child_process(pid);
+	free(shell->path);
 	signal(SIGINT, handle_sigint);
 }
 

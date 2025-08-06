@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 10:08:18 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/27 10:30:44 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/06 21:25:29 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	detect_error(char *s)
 {
 	static char	*error;
 
+	get_exit_code(2);
 	if (error == NULL && s != NULL)
 	{
 		error = s;

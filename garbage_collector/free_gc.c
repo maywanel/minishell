@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 10:47:59 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/06 10:31:49 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:53:17 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	gc_free(t_list **collector, int number)
 	while (temp && number > 0)
 	{
 		next = temp->next;
-		free(temp->content);
+		if (temp->content)
+			free(temp->content);
 		free(temp);
 		temp = next;
 		number--;

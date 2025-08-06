@@ -57,7 +57,7 @@ t_red	*make_red(t_token **lexer)
 		return (NULL);
 	redirect->red_type = get_red_type(*lexer);
 	redirect->token = (*lexer)->next;
-	redirect->target = pro_malloc(redirect->token->len + 1);
+	redirect->target = malloc(redirect->token->len + 1);
 	if (!redirect->target)
 		return (NULL);
 	ft_strlcpy(redirect->target, redirect->token->txt, redirect->token->len

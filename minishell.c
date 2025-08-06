@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 10:33:50 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:27:36 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ static void	process_command(t_shell *shell)
 	add_history(shell->line);
 	shell->cmd_list = get_the_parser(shell->line);
 	if (!shell->cmd_list)
+	{
+		if (get_exit_code(-1) == 2)
+			shell->running = false;
 		return ;
+	}
 	if (shell->cmd_list->next)
 	handle_pipes(shell);
 	else

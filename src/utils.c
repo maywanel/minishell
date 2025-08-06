@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:35:36 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 11:04:04 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:56:55 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,23 @@ void	get_promt_name(t_shell *shell)
 
 char	*create_env_string(const char *var, const char *value)
 {
-	char	*temp;
+	size_t	len;
 	char	*result;
+	size_t	var_len;
+	size_t	val_len;
 
-	temp = ft_strjoin(var, "=");
-	if (!temp)
+	if (!var || !value)
 		return (NULL);
-	result = ft_strjoin(temp, value);
-	free(temp);
+	var_len = ft_strlen(var);
+	val_len = ft_strlen(value);
+	len = var_len + 1 + val_len + 1;
+	result = pro_malloc(len);
+	if (!result)
+		return (NULL);
+	ft_memcpy(result, var, var_len);
+	result[var_len] = '=';
+	ft_memcpy(result + var_len + 1, value, val_len);
+	result[var_len + 1 + val_len] = '\0';
 	return (result);
 }
 

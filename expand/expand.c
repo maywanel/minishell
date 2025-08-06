@@ -36,8 +36,15 @@ void	ex_cpy_insidesquote(char *src, char *dest, int *d_s, int *s_p)
 int	replace_value(char **env, char *txt, char *new_txt, int *j)
 {
 	char	*value;
+	char	*exit_code_str;
 	int		key_size;
 
+	if (txt[1] == '?')
+	{
+		exit_code_str = ft_itoa(get_exit_code(-1));
+		*j = *j + ft_strlcpy(new_txt + *j, exit_code_str, ft_strlen(exit_code_str) + 1) - 1;
+		return (1);
+	}
 	key_size = valid_key(txt + 1);
 	if (key_size == 0)
 		new_txt[*j] = '$';
