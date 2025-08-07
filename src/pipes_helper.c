@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 12:34:58 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 09:48:35 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:20:08 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static void	execute_builtin_or_exit(t_shell *shell, char **argv)
 		code = handle_exit_command(argv);
 		exit(code);
 	}
-	if (is_builtin(shell, argv))
-		exit(EXIT_SUCCESS);
+	if (is_cbuiltin_command(argv[0]) || is_builtin_command(argv[0]))
+		exit(is_builtin(shell, argv));
 }
 
 static void	setup_pipes_and_signals(t_cmd *cmd, int input_fd, int pipefd[2])
@@ -83,9 +83,9 @@ static void	p_execute_command(t_cmd *cmd, t_shell *shell, int input_fd,
 	argv = tokens_to_argv(cmd->token);
 	if (!argv)
 		exit(EXIT_FAILURE);
-	execute_builtin_or_exit(shell, argv);
 	setup_pipes_and_signals(cmd, input_fd, pipefd);
 	setup_redirection(cmd);
+	execute_builtin_or_exit(shell, argv);
 	path = find_path(shell, argv);
 	if (!path)
 	{
@@ -98,8 +98,7 @@ static void	p_execute_command(t_cmd *cmd, t_shell *shell, int input_fd,
 		exit(126);
 	}
 	execve(path, argv, shell->envp);
-	perror("execve");
-	exit(EXIT_FAILURE);
+	(perror("execve"), exit(EXIT_FAILURE));
 }
 
 void	p_handle_child_process(t_cmd *cmd, t_shell *shell, int input_fd,

@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:35:59 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 10:16:01 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/07 05:46:34 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ static int	process_echo_flags(char **cmd, int *newline)
 	return (i);
 }
 
-void	handle_echo(t_shell *shell, char **cmd)
+int	handle_echo(t_shell *shell, char **cmd)
 {
 	int	i;
 	int	newline;
 
 	if (!cmd || !cmd[0] || shell == NULL)
-		return ;
+		return (0);
 	i = process_echo_flags(cmd, &newline);
 	while (cmd[i])
 	{
@@ -48,5 +48,5 @@ void	handle_echo(t_shell *shell, char **cmd)
 	}
 	if (newline)
 		printf("\n");
-	get_exit_code(0);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 10:39:28 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:06:00 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct s_shell
 
 char				**convert_to_ptr(t_token *token);
 t_token				*get_wild_card(t_token *token);
-t_token				*get_files();
+t_token				*get_files(t_token *token);
 t_token				*make_token_node(char *s);
 bool				valid_patren(t_token *token);
 t_token				*ef_token(t_token *token);
@@ -112,28 +112,30 @@ void				ex_token(t_token *token, char **env);
 void				free_array(char **array);
 void				handle_sigint(int sig);
 char				*find_path(t_shell *shell, char **cmd);
-void				handle_cd_command(t_shell *shell, char **cmd);
+int					handle_cd_command(t_shell *shell, char **cmd);
 void				prompt(t_shell *shell);
 void				handle_child_process(pid_t pid);
 void				execute_command(t_shell *shell, char **cmd);
-void				handle_exit(t_shell *shell, char **cmd);
+int					handle_exit(t_shell *shell, char **cmd);
 long				ft_exit_code(char *str);
 int					is_valid_number(char *str);
 void				handle_sigint(int sig);
-bool				is_builtin(t_shell *shell, char **cmd);
+int					is_builtin(t_shell *shell, char **cmd);
+bool				is_cbuiltin_command(char *cmd);
+void				execute_builtin_in_child(t_shell *shell, char **cmd);
 void				handle_command(t_shell *shell, char **cmd);
 void				handle_pipes(t_shell *shell);
 void				get_promt_name(t_shell *shell);
 void				handle_script(t_shell *shell, char **cmd);
-void				handle_pwd();
-void				handle_export(t_shell *shell, char **cmd);
-void				handle_unset(char **args, t_shell *shell);
+int					handle_pwd(void);
+int					handle_export(t_shell *shell, char **cmd);
+int					handle_unset(char **args, t_shell *shell);
 void				unset_env_var(const char *var, t_shell *shell);
 char				**get_envp(t_shell *shell);
 char				*ft_getenv(t_shell *shell, const char *name);
 int					find_env_var(char **envp, const char *var, int var_len);
-void				handle_env(t_shell *shell);
-void				handle_echo(t_shell *shell, char **cmd);
+int					handle_env(t_shell *shell);
+int					handle_echo(t_shell *shell, char **cmd);
 t_cmd				*get_the_parser(char *s);
 t_cmd				*make_cmd(t_token *lexer);
 void				token_addback(t_token **token, t_token *new_token);
@@ -163,9 +165,18 @@ void				p_handle_child_process(t_cmd *cmd, t_shell *shell,
 char				*create_env_string(const char *var, const char *value);
 void				ex_token(t_token *token, char **env);
 t_token				*ef_token(t_token *token);
-char 				*pro_strdup(const char *s);
+char				*pro_strdup(const char *s);
+char				*pro_strjoin(const char *s1, const char *s2);
 int					get_exit_code(int code);
 t_token				*last_token(t_token *token, char **env);
 char				*cpyftoken(t_token *token);
-
+bool				is_builtin_command(char *cmd);
+void				ft_print_error(t_shell *shell, char **cmd, char *error_msg,
+						int exit_code);
+void				add_env_var(t_shell *shell, const char *var,
+						const char *value, int var_len);
+void				copy_existing_env(char **new_envp, char **old_envp,
+						int count);
+void				update_env_var(char **envp, int idx, const char *var,
+						const char *value);
 #endif

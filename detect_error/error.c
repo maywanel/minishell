@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 10:08:18 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/06 21:25:29 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/07 01:18:23 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	detect_error(char *s)
 {
 	static char	*error;
 
-	get_exit_code(2);
 	if (error == NULL && s != NULL)
 	{
+		get_exit_code(2);
 		error = s;
 		ft_putstr_fd(error, 2);
 		return (1);

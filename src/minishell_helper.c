@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 11:46:27 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 21:20:23 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/07 05:55:37 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,15 @@ static char	*try_path(char **paths, char *cmd)
 	i = 0;
 	while (paths[i])
 	{
-		tmp = ft_strjoin(paths[i++], "/");
+		tmp = pro_strjoin(paths[i], "/");
 		if (!tmp)
 			return (NULL);
-		path = ft_strjoin(tmp, cmd);
-		free(tmp);
+		path = pro_strjoin(tmp, cmd);
 		if (!path)
-		{
-			free(path);
 			return (NULL);
-		}
 		if (access(path, X_OK) == 0)
 			return (path);
-		free(path);
+		i++;
 	}
 	return (NULL);
 }

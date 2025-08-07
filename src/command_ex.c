@@ -6,33 +6,52 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:44:32 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 21:22:21 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:09:54 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_command(t_shell *shell, char **cmd)
+static int	validate_command_path(t_shell *shell, char **cmd)
 {
-	if (is_builtin(shell, cmd))
-		return ;
+	struct stat	file_stat;
+
 	shell->path = find_path(shell, cmd);
 	if (!shell->path)
 	{
-		fprintf(stderr, "minishell: %s: command not found\n", cmd[0]);
-		free(shell->path);
-		get_exit_code(127);
-		return ;
+		ft_print_error(shell, cmd, "command not found\n", 127);
+		return (0);
+	}
+	if (stat(shell->path, &file_stat) == 0 && S_ISDIR(file_stat.st_mode))
+	{
+		ft_print_error(shell, cmd, "Is a directory\n", 126);
+		return (0);
 	}
 	if (access(shell->path, X_OK) == -1)
 	{
-		fprintf(stderr, "minishell: %s: Permission denied\n", cmd[0]);
-		get_exit_code(126);
-		free(shell->path);
-		shell->path = NULL;
+		if (access(shell->path, F_OK) == 0)
+			ft_print_error(shell, cmd, "Permission denied\n", 126);
+		else
+			ft_print_error(shell, cmd, "No such file or directory\n", 127);
+		return (0);
+	}
+	return (1);
+}
+
+void	handle_command(t_shell *shell, char **cmd)
+{
+	if (is_cbuiltin_command(cmd[0]))
+	{
+		execute_builtin_in_child(shell, cmd);
 		return ;
 	}
-	execute_command(shell, cmd);
+	if (is_builtin_command(cmd[0]))
+	{
+		get_exit_code(is_builtin(shell, cmd));
+		return ;
+	}
+	if (validate_command_path(shell, cmd))
+		execute_command(shell, cmd);
 }
 
 void	handle_script(t_shell *shell, char **cmd)
@@ -73,9 +92,9 @@ void	execute_command(t_shell *shell, char **cmd)
 	pid = fork();
 	if (pid == 0)
 	{
+		setup_redirection(shell->cmd_list);
 		(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL));
 		len = ft_strlen(shell->path);
-		setup_redirection(shell->cmd_list);
 		if (len > 3 && ft_strncmp(shell->path + len - 3, ".sh", 3) == 0)
 			handle_script(shell, cmd);
 		else if (execve(shell->path, cmd, shell->envp) == -1)
@@ -88,7 +107,7 @@ void	execute_command(t_shell *shell, char **cmd)
 	}
 	else
 		handle_child_process(pid);
-	free(shell->path);
+	shell->path = NULL;
 	signal(SIGINT, handle_sigint);
 }
 

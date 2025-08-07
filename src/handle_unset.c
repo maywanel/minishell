@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:51:27 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 20:58:37 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/07 05:45:40 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	unset_env_var(const char *var, t_shell *shell)
 	}
 }
 
-void	handle_unset(char **args, t_shell *shell)
+int	handle_unset(char **args, t_shell *shell)
 {
 	int	i;
 
@@ -44,5 +44,5 @@ void	handle_unset(char **args, t_shell *shell)
 		unset_env_var(args[i], shell);
 		i++;
 	}
-	get_exit_code(0);
+	return (0);
 }

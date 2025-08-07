@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 09:19:11 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/06 10:31:21 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:01:47 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	cmd_collect(void *ptr)
 {
 	static t_list	*collector;
 	static int		number = 0;
-	t_list		*node;
+	t_list			*node;
 
 	if (ptr == NULL)
 		gc_free(&collector, number);

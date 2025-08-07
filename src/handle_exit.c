@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:44:08 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 10:24:50 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/07 05:39:45 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,19 @@ static int	process_exit_arguments(char **cmd)
 	return ((unsigned char)temp_code);
 }
 
-void	handle_exit(t_shell *shell, char **cmd)
+int	handle_exit(t_shell *shell, char **cmd)
 {
 	int	exit_code;
 
 	printf("exit\n");
 	exit_code = process_exit_arguments(cmd);
 	if (exit_code == -1)
-		return ;
-	get_exit_code(exit_code);
+	{
+		shell->running = false;
+		pro_collect(NULL);
+		exit(1);
+	}
 	shell->running = false;
+	pro_collect(NULL);
+	return (exit_code);
 }

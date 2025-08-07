@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:58:25 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 21:08:20 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:18:53 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ char	**get_envp(t_shell *shell)
 	envp = pro_malloc(sizeof(char *) * (ft_strarrlen(shell->envp) + 1));
 	if (!envp)
 		return (NULL);
-	i = 1;
-	envp[0] = pro_strdup(shell->envp[0]);
+	i = 0;
 	while (shell->envp[i])
 	{
 		envp[i] = pro_strdup(shell->envp[i]);

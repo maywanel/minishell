@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/06 20:27:36 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:57:58 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ static void	process_command(t_shell *shell)
 		return ;
 	}
 	if (shell->cmd_list->next)
-	handle_pipes(shell);
+		handle_pipes(shell);
 	else
 	{
 		preprocess_all_heredocs(shell);
-		shell->cmd_list->token = last_token(shell->cmd_list->token, shell->envp);
+		shell->cmd_list->token = last_token(shell->cmd_list->token,
+				shell->envp);
 		shell->cmd_list->argv = tokens_to_argv(shell->cmd_list->token);
 		if (shell->cmd_list->argv)
 			handle_command(shell, shell->cmd_list->argv);
@@ -47,7 +48,10 @@ void	prompt(t_shell *shell)
 	shell->line = readline(tmp);
 	free(tmp);
 	if (!shell->line)
-		return (handle_exit(shell, exit_cmd));
+	{
+		handle_exit(shell, exit_cmd);
+		return ;
+	}
 	process_command(shell);
 	free(shell->line);
 }
@@ -68,12 +72,9 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	shell = pro_malloc(sizeof(t_shell));
+	shell = malloc(sizeof(t_shell));
 	if (!shell)
-	{
-		pro_collect(NULL);
 		return (1);
-	}
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	shell->envp = envp;
@@ -82,6 +83,6 @@ int	main(int ac, char **av, char **envp)
 		prompt(shell);
 	exit_code = get_exit_code(-1);
 	pro_collect(NULL);
-	// free_array(shell->envp);
+	free(shell);
 	return (exit_code);
 }
