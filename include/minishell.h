@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/07 15:06:00 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/08 09:59:16 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ int					get_exit_code(int code);
 t_token				*last_token(t_token *token, char **env);
 char				*cpyftoken(t_token *token);
 bool				is_builtin_command(char *cmd);
-void				ft_print_error(t_shell *shell, char **cmd, char *error_msg,
+void				ft_print_error(char **cmd, char *error_msg,
 						int exit_code);
 void				add_env_var(t_shell *shell, const char *var,
 						const char *value, int var_len);
