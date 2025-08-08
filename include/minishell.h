@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 10:31:15 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:52:23 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ typedef struct s_shell
 	char			*path;
 }					t_shell;
 
+t_red				*make_red(t_token **lexer, t_shell *shell);
+t_cmd				*make_cmd(t_token *lexer, t_shell *shell);
+t_token				*ex_redirection(t_token *token, char **env);
 bool				wild_card_helper(t_token *token, int *i, int *j);
 char				**convert_to_ptr(t_token *token);
 t_token				*get_wild_card(t_token *token);
@@ -137,16 +140,14 @@ char				*ft_getenv(t_shell *shell, const char *name);
 int					find_env_var(char **envp, const char *var, int var_len);
 int					handle_env(t_shell *shell);
 int					handle_echo(t_shell *shell, char **cmd);
-t_cmd				*get_the_parser(char *s);
-t_cmd				*make_cmd(t_token *lexer);
+t_cmd				*get_the_parser(char *s, t_shell *shell);
 void				token_addback(t_token **token, t_token *new_token);
 t_token				*get_lexer(char *s, char squotes, char dquotes);
 t_token_type		get_token_type(char *s);
 t_token				*get_token(char *s, int start, int end);
 t_red_type			get_red_type(t_token *token);
 void				token_add_back(t_token **token, t_token **lexer);
-void				red_add_back(t_red **red, t_token **lexer);
-t_red				*make_red(t_token **lexer);
+void				red_add_back(t_red **red, t_token **lexer, t_shell *shell);
 int					hchars(char s, char *c_set);
 void				cmd_collect(void *ptr);
 void				pro_collect(void *ptr);

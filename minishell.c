@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 10:19:40 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:55:53 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	process_command(t_shell *shell)
 	if (ft_strlen(shell->line) == 0)
 		return ;
 	add_history(shell->line);
-	shell->cmd_list = get_the_parser(shell->line);
+	shell->cmd_list = get_the_parser(shell->line, shell);
 	if (!shell->cmd_list)
 		return ;
 	if (shell->cmd_list->next)
