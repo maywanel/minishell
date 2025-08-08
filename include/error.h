@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 10:30:50 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/07/27 06:21:45 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:33:26 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@
 # define SE_APPEND "Syntax error near unexpected token >>\n"
 # define SE_QUOTES "Syntax error unbalanced quotes!\n"
 # define SE_NL "Syntax error near unexpected token `newline'\n"
+# define SE_SEMICOLON "Syntax error near unexpected semicolon `;'\n"
 
 #endif
