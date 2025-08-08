@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:44:08 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 08:36:59 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/08 10:00:33 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ static int	process_exit_arguments(char **cmd)
 	}
 	if (!is_valid_number(cmd[1]))
 	{
-		ft_print_error(cmd[1],
+		ft_print_error(&cmd[1],
 			"minishell: exit: %s: numeric argument required\n", 1);
 		return (2);
 	}
 	temp_code = ft_exit_code(cmd[1]);
 	if (temp_code == LONG_MAX)
 	{
-		ft_print_error(cmd[1],
+		ft_print_error(&cmd[1],
 			"minishell: exit: %s: numeric argument required\n", 2);
 		return (255);
 	}

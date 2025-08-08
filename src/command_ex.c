@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:44:32 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/07 14:09:54 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/08 10:00:03 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,20 @@ static int	validate_command_path(t_shell *shell, char **cmd)
 	shell->path = find_path(shell, cmd);
 	if (!shell->path)
 	{
-		ft_print_error(shell, cmd, "command not found\n", 127);
+		ft_print_error(cmd, "command not found\n", 127);
 		return (0);
 	}
 	if (stat(shell->path, &file_stat) == 0 && S_ISDIR(file_stat.st_mode))
 	{
-		ft_print_error(shell, cmd, "Is a directory\n", 126);
+		ft_print_error(cmd, "Is a directory\n", 126);
 		return (0);
 	}
 	if (access(shell->path, X_OK) == -1)
 	{
 		if (access(shell->path, F_OK) == 0)
-			ft_print_error(shell, cmd, "Permission denied\n", 126);
+			ft_print_error(cmd, "Permission denied\n", 126);
 		else
-			ft_print_error(shell, cmd, "No such file or directory\n", 127);
+			ft_print_error(cmd, "No such file or directory\n", 127);
 		return (0);
 	}
 	return (1);

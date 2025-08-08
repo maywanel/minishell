@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 12:34:58 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 08:37:07 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/08 10:01:43 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ static int	handle_exit_command(char **argv)
 			return (1);
 		}
 		if (!is_valid_number(argv[1]))
-			return (ft_print_error(argv[1],
+			return (ft_print_error(&argv[1],
 					"minishell: exit: %s: numeric argument required\n", 2), 2);
 		temp_code = ft_exit_code(argv[1]);
 		if (temp_code == LONG_MAX)
 		{
-			ft_print_error(argv[1],
+			ft_print_error(&argv[1],
 				"minishell: exit: %s: numeric argument required\n", 2);
 			return (255);
 		}
@@ -87,12 +87,12 @@ static void	p_execute_command(t_cmd *cmd, t_shell *shell, int input_fd,
 	path = find_path(shell, argv);
 	if (!path)
 	{
-		ft_print_error(argv[0], "minishell: %s: command not found\n", 127);
+		ft_print_error(&argv[0], "minishell: %s: command not found\n", 127);
 		exit(127);
 	}
 	if (access(path, X_OK) == -1)
 	{
-		ft_print_error(argv[0],
+		ft_print_error(&argv[0],
 			"minishell: %s: Permission denied\n", 126);
 		exit(126);
 	}
