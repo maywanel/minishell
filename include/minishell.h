@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 11:52:23 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:16:37 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_shell
 	char			*path;
 }					t_shell;
 
+void				check_status(void);
 t_red				*make_red(t_token **lexer, t_shell *shell);
 t_cmd				*make_cmd(t_token *lexer, t_shell *shell);
 t_token				*ex_redirection(t_token *token, char **env);

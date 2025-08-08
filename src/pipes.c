@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 08:53:44 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 08:22:19 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:16:11 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	process_pipe_command(t_cmd *cmd, t_shell *shell, int *input_fd,
 	}
 }
 
-static void	check_status(void)
+void	check_status(void)
 {
 	int	status;
 	int	sig;
@@ -73,6 +73,7 @@ void	handle_pipes(t_shell *shell)
 	preprocess_all_heredocs(shell);
 	while (cmd)
 	{
+		cmd->token = last_token(cmd->token, shell->envp);
 		process_pipe_command(cmd, shell, &input_fd, pipefd);
 		cmd = cmd->next;
 	}

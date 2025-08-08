@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 13:25:00 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 08:40:49 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:19:19 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	process_single_heredoc(t_red *redir, char *filename)
 	{
 		perror("open heredoc");
 		pro_collect(NULL);
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 	while (1)
 	{
@@ -125,13 +125,20 @@ void	preprocess_all_heredocs(t_shell *shell)
 {
 	t_cmd	*cmd;
 	int		cmd_index;
+	pid_t	pid;
 
-	cmd = shell->cmd_list;
-	cmd_index = 0;
-	while (cmd)
+	pid = fork();
+	if (pid == 0)
 	{
-		process_cmd_heredocs(cmd, cmd_index);
-		cmd = cmd->next;
-		cmd_index++;
+		(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL));
+		cmd = shell->cmd_list;
+		cmd_index = 0;
+		while (cmd)
+		{
+			process_cmd_heredocs(cmd, cmd_index);
+			cmd = cmd->next;
+			cmd_index++;
+		}
 	}
+	check_status();
 }
