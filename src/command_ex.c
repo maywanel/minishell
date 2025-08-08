@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:44:32 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 10:00:03 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:43:11 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ static int	validate_command_path(t_shell *shell, char **cmd)
 
 void	handle_command(t_shell *shell, char **cmd)
 {
-	if (is_cbuiltin_command(cmd[0]))
-	{
-		execute_builtin_in_child(shell, cmd);
-		return ;
-	}
 	if (is_builtin_command(cmd[0]))
 	{
 		get_exit_code(is_builtin(shell, cmd));
+		return ;
+	}
+	if (is_cbuiltin_command(cmd[0]))
+	{
+		execute_builtin_in_child(shell, cmd);
 		return ;
 	}
 	if (validate_command_path(shell, cmd))

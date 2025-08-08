@@ -23,3 +23,13 @@ void	ft_print_error(char **cmd, char *error_msg, int exit_code)
 	ft_putstr_fd(error_msg, 2);
 	get_exit_code(exit_code);
 }
+
+void	heredoc_sig(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		close(STDIN_FILENO);
+		exit(130);
+	}
+}

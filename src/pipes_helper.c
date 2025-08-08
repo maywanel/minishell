@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 12:34:58 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 15:57:40 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/08 17:03:46 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,6 @@ void	p_handle_child_process(t_cmd *cmd, t_shell *shell, int input_fd,
 	}
 	if (pid == 0)
 		p_execute_command(cmd, shell, input_fd, pipefd);
+	else
+		check_status(pid);
 }

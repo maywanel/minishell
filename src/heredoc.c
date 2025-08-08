@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 13:25:00 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 16:19:19 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/08 17:12:57 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	preprocess_all_heredocs(t_shell *shell)
 	pid = fork();
 	if (pid == 0)
 	{
-		(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL));
+		(signal(SIGINT, heredoc_sig), signal(SIGQUIT, SIG_DFL));
 		cmd = shell->cmd_list;
 		cmd_index = 0;
 		while (cmd)
@@ -139,6 +139,11 @@ void	preprocess_all_heredocs(t_shell *shell)
 			cmd = cmd->next;
 			cmd_index++;
 		}
+		exit(0);
 	}
-	check_status();
+	else if (pid > 0)
+		(signal(SIGINT, SIG_IGN), check_status(pid),
+			signal(SIGINT, handle_sigint));
+	else
+		(perror("fork"), exit(EXIT_FAILURE));
 }

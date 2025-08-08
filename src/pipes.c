@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 08:53:44 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 16:16:11 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/08 17:09:52 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,19 @@ static void	process_pipe_command(t_cmd *cmd, t_shell *shell, int *input_fd,
 	}
 }
 
-void	check_status(void)
+void	check_status(pid_t pid)
 {
 	int	status;
 	int	sig;
 
-	while (wait(&status) != -1)
+	while (waitpid(pid, &status, 0) != -1)
 	{
 		if (WIFSIGNALED(status))
 		{
 			sig = WTERMSIG(status);
 			if (sig == SIGINT)
 			{
-				printf("\n");
+				write(1, "\n", 1);
 				get_exit_code(130);
 			}
 			else if (sig == SIGQUIT)
@@ -77,5 +77,4 @@ void	handle_pipes(t_shell *shell)
 		process_pipe_command(cmd, shell, &input_fd, pipefd);
 		cmd = cmd->next;
 	}
-	check_status();
 }
