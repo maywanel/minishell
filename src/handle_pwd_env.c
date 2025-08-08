@@ -36,7 +36,7 @@ int	handle_env(t_shell *shell)
 
 	if (!shell || !shell->envp)
 	{
-		fprintf(stderr, "minishell: env: no environment variables set\n");
+		ft_putstr_fd("minishell: env: no environment variables set\n", 2);
 		return (1);
 	}
 	env = shell->envp;

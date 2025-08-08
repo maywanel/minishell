@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 12:34:58 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/07 14:20:08 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/08 08:37:07 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,17 @@ static int	handle_exit_command(char **argv)
 	{
 		if (argv[2] != NULL)
 		{
-			fprintf(stderr, "minishell: exit: too many arguments\n");
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			return (1);
 		}
 		if (!is_valid_number(argv[1]))
-			return (fprintf(stderr,
-					"minishell: exit: %s: numeric argument required\n",
-					argv[1]), 2);
+			return (ft_print_error(argv[1],
+					"minishell: exit: %s: numeric argument required\n", 2), 2);
 		temp_code = ft_exit_code(argv[1]);
 		if (temp_code == LONG_MAX)
 		{
-			fprintf(stderr, "minishell: exit: %s: numeric argument required\n",
-				argv[1]);
+			ft_print_error(argv[1],
+				"minishell: exit: %s: numeric argument required\n", 2);
 			return (255);
 		}
 		code = (unsigned char)temp_code;
@@ -83,18 +82,18 @@ static void	p_execute_command(t_cmd *cmd, t_shell *shell, int input_fd,
 	argv = tokens_to_argv(cmd->token);
 	if (!argv)
 		exit(EXIT_FAILURE);
-	setup_pipes_and_signals(cmd, input_fd, pipefd);
-	setup_redirection(cmd);
+	(setup_pipes_and_signals(cmd, input_fd, pipefd), setup_redirection(cmd));
 	execute_builtin_or_exit(shell, argv);
 	path = find_path(shell, argv);
 	if (!path)
 	{
-		fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
+		ft_print_error(argv[0], "minishell: %s: command not found\n", 127);
 		exit(127);
 	}
 	if (access(path, X_OK) == -1)
 	{
-		fprintf(stderr, "minishell: %s: Permission denied\n", argv[0]);
+		ft_print_error(argv[0],
+			"minishell: %s: Permission denied\n", 126);
 		exit(126);
 	}
 	execve(path, argv, shell->envp);

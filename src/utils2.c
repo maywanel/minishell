@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_print_error(t_shell *shell, char **cmd,
-							char *error_msg, int exit_code)
+void	ft_print_error(char **cmd, char *error_msg, int exit_code)
 {
 	ft_putstr_fd("minishell: ", 2);
 	if (cmd && cmd[0])
@@ -23,6 +22,4 @@ void	ft_print_error(t_shell *shell, char **cmd,
 	}
 	ft_putstr_fd(error_msg, 2);
 	get_exit_code(exit_code);
-	if (exit_code == 126 || exit_code == 127)
-		shell->path = NULL;
 }
