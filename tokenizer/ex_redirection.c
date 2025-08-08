@@ -6,13 +6,13 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 10:41:20 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/08 12:12:16 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:46:44 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_token *ex_redirection(t_token *token, char **env)
+t_token	*ex_redirection(t_token *token, char **env)
 {
 	t_token	*n_token;
 

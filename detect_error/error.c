@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 10:08:18 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/08 12:00:58 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:45:25 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	se_token(t_token *token)
 	while (next != NULL)
 	{
 		if (token->type == TOKEN_REDIRECTION && next->type != TOKEN_WORD)
+			return (se_find_type(next));
+		else if (token->type == TOKEN_PIPE && next->type == TOKEN_PIPE)
 			return (se_find_type(next));
 		token = next;
 		next = next->next;
