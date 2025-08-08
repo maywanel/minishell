@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 10:57:30 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/07 15:09:45 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/08 10:32:10 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,8 @@ bool	valid_wild_card(t_token *token, char *n_file)
 		return (0);
 	while (1)
 	{
-		while (token->txt[i] == '*' && i < token->len)
-			i++;
-		if (i == token->len)
+		if (wild_card_helper(token, &i, &j) == 1)
 			return (1);
-		j = i;
-		while (token->txt[j] != '*' && j < token->len)
-			j++;
 		while (n_file[k] != token->txt[i] && n_file[k] != 0)
 			k++;
 		if (ft_strncmp(token->txt + i, n_file + k, j - i) != 0
