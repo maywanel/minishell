@@ -6,11 +6,33 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:09 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 11:55:53 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/09 17:17:03 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	no_pipes(t_shell *shell)
+{
+	pid_t	pid;
+
+	preprocess_all_heredocs(shell);
+	shell->cmd_list->token = last_token(shell->cmd_list->token,
+			shell->envp);
+	shell->cmd_list->argv = tokens_to_argv(shell->cmd_list->token);
+	if (shell->cmd_list->argv)
+		handle_command(shell, shell->cmd_list->argv);
+	else if (shell->cmd_list->redirection)
+	{
+		pid = fork();
+		if (pid == 0)
+			(setup_redirection(shell->cmd_list), exit(0));
+		else if (pid > 0)
+			handle_child_process(pid);
+		else
+			(perror("fork"), get_exit_code(1));
+	}
+}
 
 static void	process_command(t_shell *shell)
 {
@@ -23,14 +45,7 @@ static void	process_command(t_shell *shell)
 	if (shell->cmd_list->next)
 		handle_pipes(shell);
 	else
-	{
-		preprocess_all_heredocs(shell);
-		shell->cmd_list->token = last_token(shell->cmd_list->token,
-				shell->envp);
-		shell->cmd_list->argv = tokens_to_argv(shell->cmd_list->token);
-		if (shell->cmd_list->argv)
-			handle_command(shell, shell->cmd_list->argv);
-	}
+		no_pipes(shell);
 }
 
 void	prompt(t_shell *shell)

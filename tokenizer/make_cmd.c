@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 20:10:08 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/08 16:31:09 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/09 16:48:53 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_red	*make_red(t_token **lexer, t_shell *shell)
 		redirect->token = ex_redirection(redirect->token, shell->envp);
 	if (!redirect->token)
 		return ((void *)-1);
+	redirect->token->txt[redirect->token->len] = '\0';
 	redirect->target = redirect->token->txt;
 	redirect->next = NULL;
 	return (redirect);

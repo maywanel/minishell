@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/09 09:17:05 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/09 17:47:49 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_shell
 
 char				*get_heredoc_line(char **env, t_red *red, char *line);
 void				check_status(pid_t pid);
+void				wait_for_all_processes(pid_t *pids, t_cmd *cmd);
 t_red				*make_red(t_token **lexer, t_shell *shell);
 t_cmd				*make_cmd(t_token *lexer, t_shell *shell);
 t_token				*ex_redirection(t_token *token, char **env);
@@ -165,7 +166,7 @@ char				**nl_split(char *s);
 char				**tokens_to_argv(t_token *token);
 void				setup_redirection(t_cmd *cmd);
 void				preprocess_all_heredocs(t_shell *shell);
-void				p_handle_child_process(t_cmd *cmd, t_shell *shell,
+pid_t				p_handle_child_process(t_cmd *cmd, t_shell *shell,
 						int input_fd, int pipefd[2]);
 char				*create_env_string(const char *var, const char *value);
 t_token				*ef_token(t_token *token);
