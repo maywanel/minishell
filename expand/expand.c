@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 03:38:29 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/01 04:02:23 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/09 06:48:55 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*new_token_txt(char **env, t_token *token, int newt_size)
 
 	i = 0;
 	j = 0;
-	new_txt = pro_malloc(sizeof(char *) *(newt_size + 1));
+	new_txt = pro_malloc(sizeof(char) *(newt_size + 1));
 	while (i < token->len)
 	{
 		if (token->txt[i] == '$')

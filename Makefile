@@ -17,7 +17,7 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS) $(LIBFT) minishell.c
-	$(CC) minishell.c $(CFLAGS) $(LREADLINE) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) minishell.c $(CFLAGS) $(LREADLINE) $(OBJS) $(LIBFT) -o $(NAME) -fsanitize=address -g3
 
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
