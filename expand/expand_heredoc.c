@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 07:06:50 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/09 09:15:43 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/09 16:13:30 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*get_heredoc_line(char **env, t_red *red, char *line)
 		return (line);
 	token.txt = line;
 	token.len = ft_strlen(line);
+	token.type = 0;
+	token.next = NULL;
 	ex_token(&token, env, 0);
 	free(line);
 	return (token.txt);
