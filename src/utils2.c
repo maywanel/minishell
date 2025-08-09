@@ -33,3 +33,60 @@ void	heredoc_sig(int sig)
 		exit(130);
 	}
 }
+
+void	append_int_to_str(char *str, int num, int *i)
+{
+	int	tmp;
+	int	power;
+	int	digit;
+
+	if (num == 0)
+	{
+		str[(*i)++] = '0';
+		return ;
+	}
+	tmp = num;
+	power = 1;
+	while (tmp >= 10)
+	{
+		tmp /= 10;
+		power *= 10;
+	}
+	tmp = num;
+	while (power > 0)
+	{
+		digit = tmp / power;
+		str[(*i)++] = digit + '0';
+		tmp %= power;
+		power /= 10;
+	}
+}
+
+char	*create_heredoc_filename(int cmd_index, int heredoc_index)
+{
+	char	*filename;
+	int		i;
+
+	i = 0;
+	filename = pro_malloc(50);
+	if (!filename)
+		return (NULL);
+	filename[i++] = '.';
+	filename[i++] = 'h';
+	filename[i++] = 'e';
+	filename[i++] = 'r';
+	filename[i++] = 'e';
+	filename[i++] = 'd';
+	filename[i++] = 'o';
+	filename[i++] = 'c';
+	filename[i++] = '_';
+	filename[i++] = 't';
+	filename[i++] = 'm';
+	filename[i++] = 'p';
+	filename[i++] = '_';
+	append_int_to_str(filename, cmd_index, &i);
+	filename[i++] = '_';
+	append_int_to_str(filename, heredoc_index, &i);
+	filename[i] = '\0';
+	return (filename);
+}

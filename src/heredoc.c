@@ -6,68 +6,11 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 13:25:00 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/09 08:33:44 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/09 09:14:54 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	append_int_to_str(char *str, int num, int *i)
-{
-	int	tmp;
-	int	power;
-	int	digit;
-
-	if (num == 0)
-	{
-		str[(*i)++] = '0';
-		return ;
-	}
-	tmp = num;
-	power = 1;
-	while (tmp >= 10)
-	{
-		tmp /= 10;
-		power *= 10;
-	}
-	tmp = num;
-	while (power > 0)
-	{
-		digit = tmp / power;
-		str[(*i)++] = digit + '0';
-		tmp %= power;
-		power /= 10;
-	}
-}
-
-static char	*create_heredoc_filename(int cmd_index, int heredoc_index)
-{
-	char	*filename;
-	int		i;
-
-	i = 0;
-	filename = pro_malloc(50);
-	if (!filename)
-		return (NULL);
-	filename[i++] = '.';
-	filename[i++] = 'h';
-	filename[i++] = 'e';
-	filename[i++] = 'r';
-	filename[i++] = 'e';
-	filename[i++] = 'd';
-	filename[i++] = 'o';
-	filename[i++] = 'c';
-	filename[i++] = '_';
-	filename[i++] = 't';
-	filename[i++] = 'm';
-	filename[i++] = 'p';
-	filename[i++] = '_';
-	append_int_to_str(filename, cmd_index, &i);
-	filename[i++] = '_';
-	append_int_to_str(filename, heredoc_index, &i);
-	filename[i] = '\0';
-	return (filename);
-}
 
 static void	process_single_heredoc(char **env, t_red *redir, char *filename)
 {
@@ -97,6 +40,27 @@ static void	process_single_heredoc(char **env, t_red *redir, char *filename)
 	close(fd_heredoc);
 }
 
+static void	execute_single_heredoc(char **env, t_red *redir, char *filename)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		(signal(SIGINT, heredoc_sig), signal(SIGQUIT, SIG_DFL));
+		process_single_heredoc(env, redir, filename);
+		exit(0);
+	}
+	else if (pid > 0)
+	{
+		signal(SIGINT, SIG_IGN);
+		check_status(pid);
+		signal(SIGINT, handle_sigint);
+	}
+	else
+		(perror("fork"), exit(EXIT_FAILURE));
+}
+
 static void	process_cmd_heredocs(char **env, t_cmd *cmd, int cmd_index)
 {
 	t_red	*redir;
@@ -112,7 +76,7 @@ static void	process_cmd_heredocs(char **env, t_cmd *cmd, int cmd_index)
 			filename = create_heredoc_filename(cmd_index, heredoc_index);
 			if (filename)
 			{
-				process_single_heredoc(env, redir, filename);
+				execute_single_heredoc(env, redir, filename);
 				redir->target = filename;
 				heredoc_index++;
 			}
@@ -125,25 +89,13 @@ void	preprocess_all_heredocs(t_shell *shell)
 {
 	t_cmd	*cmd;
 	int		cmd_index;
-	pid_t	pid;
 
-	pid = fork();
-	if (pid == 0)
+	cmd = shell->cmd_list;
+	cmd_index = 0;
+	while (cmd)
 	{
-		(signal(SIGINT, heredoc_sig), signal(SIGQUIT, SIG_DFL));
-		cmd = shell->cmd_list;
-		cmd_index = 0;
-		while (cmd)
-		{
-			process_cmd_heredocs(shell->envp, cmd, cmd_index);
-			cmd = cmd->next;
-			cmd_index++;
-		}
-		exit(0);
+		process_cmd_heredocs(shell->envp, cmd, cmd_index);
+		cmd = cmd->next;
+		cmd_index++;
 	}
-	else if (pid > 0)
-		(signal(SIGINT, SIG_IGN), check_status(pid),
-			signal(SIGINT, handle_sigint));
-	else
-		(perror("fork"), exit(EXIT_FAILURE));
 }

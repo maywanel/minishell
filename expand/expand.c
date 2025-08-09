@@ -86,7 +86,8 @@ int	ex_cpy_insidedquote(char **env, char *src, char *dest, int *dst_start)
 	return (i);
 }
 
-char	*new_token_txt(char **env, t_token *token, int newt_size, bool n_heredoc)
+char	*new_token_txt(char **env, t_token *token,
+				int newt_size, bool n_heredoc)
 {
 	char	*new_txt;
 	int		i;

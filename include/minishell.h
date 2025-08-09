@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/09 08:38:27 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/09 09:17:05 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ bool				valid_patren(t_token *token);
 t_token				*ef_token(t_token *token);
 char				*env_get_value(char **env, char *str, int size);
 int					valid_key(char *s);
-int					size_of_new_token_txt(char **env, t_token *token, bool n_heredoc);
+int					size_of_new_token_txt(char **env, t_token *token,
+						bool n_heredoc);
 int					ex_validchar(char c);
 int					count_insidequotes(char *s, int *saver);
 int					detect_error(char *s);
@@ -183,5 +184,7 @@ void				copy_existing_env(char **new_envp, char **old_envp,
 void				update_env_var(char **envp, int idx, const char *var,
 						const char *value);
 void				heredoc_sig(int sig);
+char				*create_heredoc_filename(int cmd_index, int heredoc_index);
+void				append_int_to_str(char *str, int num, int *i);
 
 #endif
