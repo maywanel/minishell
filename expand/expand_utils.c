@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 04:44:04 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/09 08:25:01 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:58:23 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_token	*last_token(t_token *token, char **env)
 {
 	t_token	*tmp;
 
-	ex_token(token, env, 1);
+	ex_token(token, env, 0);
 	token = ef_token(token);
 	token = get_wild_card(token);
 	tmp = token;
