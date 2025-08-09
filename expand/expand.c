@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 03:38:29 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/09 06:48:55 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/09 08:27:26 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ex_cpy_insidedquote(char **env, char *src, char *dest, int *dst_start)
 	return (i);
 }
 
-char	*new_token_txt(char **env, t_token *token, int newt_size)
+char	*new_token_txt(char **env, t_token *token, int newt_size, bool n_heredoc)
 {
 	char	*new_txt;
 	int		i;
@@ -99,9 +99,9 @@ char	*new_token_txt(char **env, t_token *token, int newt_size)
 	{
 		if (token->txt[i] == '$')
 			i = i + replace_value(env, token->txt + i, new_txt, &j);
-		else if (token->txt[i] == '\'')
+		else if (token->txt[i] == '\'' && n_heredoc)
 			ex_cpy_insidesquote(token->txt, new_txt, &j, &i);
-		else if (token->txt[i] == '\"')
+		else if (token->txt[i] == '\"' && n_heredoc)
 			i = i + ex_cpy_insidedquote(env, token->txt + i, new_txt, &j);
 		else
 			new_txt[j] = token->txt[i];
@@ -112,17 +112,17 @@ char	*new_token_txt(char **env, t_token *token, int newt_size)
 	return (new_txt);
 }
 
-void	ex_token(t_token *token, char **env)
+void	ex_token(t_token *token, char **env, bool n_heredoc)
 {
 	int	new_token_size;
 
 	while (token != NULL)
 	{
-		new_token_size = size_of_new_token_txt(env, token);
+		new_token_size = size_of_new_token_txt(env, token, n_heredoc);
 		if (new_token_size == 0)
 			token->txt = NULL;
 		else
-			token->txt = new_token_txt(env, token, new_token_size);
+			token->txt = new_token_txt(env, token, new_token_size, n_heredoc);
 		token->len = new_token_size;
 		token = token->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 13:25:00 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 17:12:57 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/09 08:33:44 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	*create_heredoc_filename(int cmd_index, int heredoc_index)
 	return (filename);
 }
 
-static void	process_single_heredoc(t_red *redir, char *filename)
+static void	process_single_heredoc(char **env, t_red *redir, char *filename)
 {
 	char	*line;
 	int		fd_heredoc;
@@ -88,6 +88,7 @@ static void	process_single_heredoc(t_red *redir, char *filename)
 					ft_strlen(redir->target)) == 0
 				&& ft_strlen(line) == ft_strlen(redir->target)))
 			break ;
+		line = get_heredoc_line(env, redir, line);
 		write(fd_heredoc, line, ft_strlen(line));
 		write(fd_heredoc, "\n", 1);
 		free(line);
@@ -96,7 +97,7 @@ static void	process_single_heredoc(t_red *redir, char *filename)
 	close(fd_heredoc);
 }
 
-static void	process_cmd_heredocs(t_cmd *cmd, int cmd_index)
+static void	process_cmd_heredocs(char **env, t_cmd *cmd, int cmd_index)
 {
 	t_red	*redir;
 	int		heredoc_index;
@@ -111,8 +112,7 @@ static void	process_cmd_heredocs(t_cmd *cmd, int cmd_index)
 			filename = create_heredoc_filename(cmd_index, heredoc_index);
 			if (filename)
 			{
-				process_single_heredoc(redir, filename);
-				free(redir->target);
+				process_single_heredoc(env, redir, filename);
 				redir->target = filename;
 				heredoc_index++;
 			}
@@ -135,7 +135,7 @@ void	preprocess_all_heredocs(t_shell *shell)
 		cmd_index = 0;
 		while (cmd)
 		{
-			process_cmd_heredocs(cmd, cmd_index);
+			process_cmd_heredocs(shell->envp, cmd, cmd_index);
 			cmd = cmd->next;
 			cmd_index++;
 		}

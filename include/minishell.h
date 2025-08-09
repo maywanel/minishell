@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:32:16 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/08 17:03:59 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/09 08:38:27 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_shell
 	char			*path;
 }					t_shell;
 
+char				*get_heredoc_line(char **env, t_red *red, char *line);
 void				check_status(pid_t pid);
 t_red				*make_red(t_token **lexer, t_shell *shell);
 t_cmd				*make_cmd(t_token *lexer, t_shell *shell);
@@ -107,13 +108,13 @@ bool				valid_patren(t_token *token);
 t_token				*ef_token(t_token *token);
 char				*env_get_value(char **env, char *str, int size);
 int					valid_key(char *s);
-int					size_of_new_token_txt(char **env, t_token *token);
+int					size_of_new_token_txt(char **env, t_token *token, bool n_heredoc);
 int					ex_validchar(char c);
 int					count_insidequotes(char *s, int *saver);
 int					detect_error(char *s);
 int					se_token(t_token *token);
 void				cd(char *av);
-void				ex_token(t_token *token, char **env);
+void				ex_token(t_token *token, char **env, bool n_heredoc);
 void				free_array(char **array);
 void				handle_sigint(int sig);
 char				*find_path(t_shell *shell, char **cmd);
@@ -166,7 +167,6 @@ void				preprocess_all_heredocs(t_shell *shell);
 void				p_handle_child_process(t_cmd *cmd, t_shell *shell,
 						int input_fd, int pipefd[2]);
 char				*create_env_string(const char *var, const char *value);
-void				ex_token(t_token *token, char **env);
 t_token				*ef_token(t_token *token);
 char				*pro_strdup(const char *s);
 char				*pro_strjoin(const char *s1, const char *s2);

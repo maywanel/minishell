@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 06:25:49 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/08/01 04:03:22 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/08/09 08:39:17 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	count_insidedquote(char **env, char *s, int *start)
 	return (size);
 }
 
-int	size_of_new_token_txt(char **env, t_token *token)
+int	size_of_new_token_txt(char **env, t_token *token, bool n_heredoc)
 {
 	int	i;
 	int	size;
@@ -61,9 +61,9 @@ int	size_of_new_token_txt(char **env, t_token *token)
 	{
 		if (token->txt[i] == '$')
 			i = i + should_expand(env, token->txt + i + 1, &size);
-		else if (token->txt[i] == '\"')
+		else if (token->txt[i] == '\"' && n_heredoc)
 			size = size + count_insidedquote(env, token->txt, &i);
-		else if (token->txt[i] == '\'')
+		else if (token->txt[i] == '\'' && n_heredoc)
 			size = size + count_insidequotes(token->txt, &i);
 		else
 			size++;
