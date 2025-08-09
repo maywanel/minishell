@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 13:25:00 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/09 09:14:54 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:32:14 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@ static void	process_cmd_heredocs(char **env, t_cmd *cmd, int cmd_index)
 			{
 				execute_single_heredoc(env, redir, filename);
 				redir->target = filename;
+				if (!cmd->token || !cmd->token->txt
+					|| cmd->token->txt[0] == '\0')
+					unlink(redir->target);
 				heredoc_index++;
 			}
 		}
