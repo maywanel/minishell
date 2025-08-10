@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 12:34:58 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/09 17:35:54 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/10 02:58:16 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ static void	p_execute_command(t_cmd *cmd, t_shell *shell, int input_fd,
 	path = find_path(shell, argv);
 	if (!path)
 	{
-		ft_print_error(&argv[0], "minishell: %s: command not found\n", 127);
+		ft_print_error(&argv[0], "minishell: command not found\n", 127);
 		exit(127);
 	}
 	if (access(path, X_OK) == -1)
 	{
 		ft_print_error(&argv[0],
-			"minishell: %s: Permission denied\n", 126);
+			"minishell: Permission denied\n", 126);
 		exit(126);
 	}
 	execve(path, argv, shell->envp);

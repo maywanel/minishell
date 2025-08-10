@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 11:46:27 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/07 05:55:37 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/10 02:14:54 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	handle_sigint(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	get_exit_code(130);
 }
 
 static char	*try_path(char **paths, char *cmd)

@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:44:32 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/09 17:21:36 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/10 02:31:09 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ static int	validate_command_path(t_shell *shell, char **cmd)
 	struct stat	file_stat;
 
 	shell->path = find_path(shell, cmd);
-	if (!shell->path)
+	if (!shell->path || !cmd || !cmd[0][0])
 	{
 		ft_print_error(cmd, "command not found\n", 127);
+		get_exit_code(127);
 		return (0);
 	}
 	if (stat(shell->path, &file_stat) == 0 && S_ISDIR(file_stat.st_mode))
@@ -45,7 +46,9 @@ void	handle_command(t_shell *shell, char **cmd)
 		get_exit_code(is_builtin(shell, cmd));
 		return ;
 	}
-	if (validate_command_path(shell, cmd))
+	else if (is_cbuiltin_command(cmd[0]))
+		execute_builtin_in_child(shell, cmd);
+	else if (validate_command_path(shell, cmd))
 		execute_command(shell, cmd);
 }
 

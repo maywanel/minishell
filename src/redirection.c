@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 13:20:00 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/09 09:06:03 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/10 03:03:24 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	setup_redirection(t_cmd *cmd)
 			handle_output_redirection(redir);
 		else if (redir->red_type == REDIR_APPEND)
 			handle_append_redirection(redir);
-		else if (redir->red_type == REDIR_HEREDOC)
+		else if (redir->red_type == REDIR_HEREDOC && !(!cmd->token
+				|| !cmd->token->txt || cmd->token->txt[0] == '\0'))
 			handle_heredoc_redirection(redir);
 		redir = redir->next;
 	}

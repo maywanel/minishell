@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 21:50:13 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/08/09 17:24:49 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/08/10 02:18:32 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ bool	is_builtin_command(char *cmd)
 		|| (ft_strncmp(cmd, "export", 6) == 0 && ft_strlen(cmd) == 6)
 		|| (ft_strncmp(cmd, "unset", 5) == 0 && ft_strlen(cmd) == 5)
 		|| (ft_strncmp(cmd, "pwd", 3) == 0 && ft_strlen(cmd) == 3)
-		|| (ft_strncmp(cmd, "env", 3) == 0 && ft_strlen(cmd) == 3)
-		|| (ft_strncmp(cmd, "echo", 4) == 0 && ft_strlen(cmd) == 4))
+		|| (ft_strncmp(cmd, "env", 3) == 0 && ft_strlen(cmd) == 3))
 		return (true);
 	return (false);
 }
