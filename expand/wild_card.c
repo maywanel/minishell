@@ -82,6 +82,8 @@ t_token	*get_files(t_token *token)
 	struct dirent	*info;
 
 	dir = opendir(".");
+	if (!dir)
+		return (NULL);
 	files = NULL;
 	while (1)
 	{
